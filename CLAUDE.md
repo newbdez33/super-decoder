@@ -7,7 +7,7 @@ Super Decoder is a Mastermind-based code-breaking puzzle game with 600 levels, s
 - **Monorepo**: npm workspaces (`packages/*`, `apps/*`)
 - **Shared**: TypeScript (strict mode), Zustand 5
 - **Web**: React 19 + Vite 7, Tailwind CSS 4, Framer Motion, Howler.js, Playwright
-- **Mobile** (planned): Expo + React Native, moti + Reanimated, expo-av, expo-haptics
+- **Mobile**: Expo SDK 52 + React Native 0.76, Reanimated, expo-haptics, expo-router
 - **Testing**: Vitest + React Testing Library + Playwright
 
 ## Commands
@@ -18,6 +18,8 @@ Super Decoder is a Mastermind-based code-breaking puzzle game with 600 levels, s
 - `npm test -w @super-decoder/web` — Web app tests only
 - `npm run test:e2e -w @super-decoder/web` — Playwright E2E tests
 - `npm run lint -w @super-decoder/web` — ESLint
+- `npm start -w @super-decoder/mobile` — Start Expo dev server (mobile)
+- `npx expo start --android` — Run mobile app on Android emulator (from `apps/mobile/`)
 
 ## Project Structure
 ```
@@ -41,7 +43,15 @@ super-decoder/
 │   │   │   ├── screens/            # 5 screens (HTML + framer-motion)
 │   │   │   └── test/               # Vitest setup
 │   │   └── e2e/                    # Playwright tests
-│   └── mobile/                     # @super-decoder/mobile (planned)
+│   └── mobile/                     # @super-decoder/mobile (Expo)
+│       ├── app/                    # expo-router pages (_layout, index, game, settings, stats)
+│       ├── src/
+│       │   ├── components/         # 12 RN components (View, Pressable, Reanimated)
+│       │   ├── screens/            # 5 screens (RN + Reanimated)
+│       │   ├── stores/             # AsyncStorage wrappers
+│       │   └── themes/             # useTheme hook
+│       ├── assets/fonts/           # Orbitron + Exo 2 TTFs
+│       └── metro.config.js         # monorepo watchFolders config
 ```
 
 ## Architecture: Shared vs Platform-Specific
@@ -55,6 +65,14 @@ super-decoder/
 | `createProgressStore(storage)` factory | Store wrappers with localStorage |
 | `createSettingsStore(storage)` factory | Playwright E2E tests |
 
+| Mobile-only (`apps/mobile`) |
+|---|
+| `useTheme` hook (pure RN, no CSS vars) |
+| 12 RN components (View, Pressable, Reanimated) |
+| 5 screens (expo-router navigation) |
+| Store wrappers with AsyncStorage |
+| expo-haptics for vibration |
+
 ## Store Pattern
 Persisted stores use factory functions accepting `StateStorage`:
 ```typescript
@@ -64,7 +82,7 @@ export function createSettingsStore(storage: StateStorage) { ... }
 // apps/web: wrapper with localStorage
 export const useSettingsStore = createSettingsStore(localStorage);
 
-// apps/mobile: wrapper with AsyncStorage (planned)
+// apps/mobile: wrapper with AsyncStorage
 export const useSettingsStore = createSettingsStore(AsyncStorage);
 ```
 
@@ -109,4 +127,11 @@ export const useSettingsStore = createSettingsStore(AsyncStorage);
 - Touch targets minimum 44px
 - Max game width 480px, centered on larger screens
 - Safe Area Insets for notch devices
-- All animations via Framer Motion
+- All animations via Framer Motion (web) / Reanimated (mobile)
+
+## Android Development Setup
+- **Android SDK**: `C:\Users\newbd\Android\Sdk`
+- **JDK**: Microsoft OpenJDK 17 (`C:\Program Files\Microsoft\jdk-17.0.18.8-hotspot`)
+- **Emulator AVD**: `SuperDecoder` (Pixel 6, Android 14/API 34, Google APIs x86_64)
+- **Start emulator**: `emulator -avd SuperDecoder`
+- **Metro monorepo**: `metro.config.js` uses `watchFolders = [monorepoRoot]` to resolve `@super-decoder/shared`
