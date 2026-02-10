@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Super Decoder - Home Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2ed157",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#0A0A12",
+                        "terminal-accent": "#1a2e1f",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.1) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, rgba(46, 209, 87, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(46, 209, 87, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .voxel-btn {
+            transform: perspective(500px) rotateX(10deg);
+            box-shadow: 0 10px 0 #1b7a33;
+            transition: all 0.1s ease;
+        }
+        .voxel-btn:active {
+            transform: perspective(500px) rotateX(10deg) translateY(6px);
+            box-shadow: 0 4px 0 #1b7a33;
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(46, 209, 87, 0.8), 0 0 20px rgba(46, 209, 87, 0.4);
+        }
+        .voxel-card {
+            border: 2px solid #2ed157;
+            background: rgba(10, 10, 18, 0.8);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white min-h-screen overflow-hidden select-none">
+<!-- Background Grid -->
+<div class="fixed inset-0 grid-bg opacity-40"></div>
+<div class="fixed inset-0 scanlines z-50"></div>
+<!-- Main Container (Mobile Form Factor) -->
+<main class="relative z-10 max-w-md mx-auto h-screen flex flex-col items-center justify-between py-12 px-8">
+<!-- Header Section -->
+<header class="text-center">
+<h1 class="text-5xl font-extrabold tracking-tighter text-primary glow-text italic">
+                SUPER<br/>
+<span class="text-4xl">DECODER</span>
+</h1>
+<div class="mt-2 flex items-center justify-center space-x-2">
+<span class="h-1 w-12 bg-primary rounded-full opacity-50"></span>
+<span class="text-[10px] uppercase tracking-[0.3em] text-primary/80">Neural Interface v2.0</span>
+<span class="h-1 w-12 bg-primary rounded-full opacity-50"></span>
+</div>
+</header>
+<!-- Central 3D Hero Section -->
+<div class="relative w-full aspect-square flex items-center justify-center">
+<!-- Voxel Device Placeholder Simulation -->
+<div class="relative w-64 h-64">
+<div class="absolute inset-0 bg-primary/10 rounded-full blur-3xl"></div>
+<img alt="3D Voxel Decoder Device" class="w-full h-full object-contain relative z-10 drop-shadow-[0_0_30px_rgba(46,209,87,0.4)]" data-alt="Isometric 3D voxel glowing green cube device" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMSZbwELTxmDe_fQzJcGL1RTKj-_XGARvbFKo9KY1yjH9Z8af8FEqTZYgFYZ-LxLf8WzbbiG-wi4XJV8LqpQ1--rzZ9SszgRdQos9ZicU8seBqYRUPkakfi9dFvT3TDUh3CCJZPsIzGiGkUA71mUBc5lHyB7duNRYaVy1W-XID0fJSsprIwT1l2WjBTiZ2q8QOHR_sSxwzSivYDxcv6_yybQjNl3U9speAmxk7uSh9ld5IAQyB7kwAixjVMydI4NNhNWYtEUsxt4Y"/>
+<!-- Orbiting Data Points -->
+<div class="absolute top-0 right-0 w-8 h-8 border border-primary/40 rounded flex items-center justify-center">
+<span class="text-[8px] text-primary">ID:042</span>
+</div>
+<div class="absolute bottom-10 left-0 w-12 h-4 border-l-2 border-primary/60 flex items-center pl-2">
+<div class="w-full h-[1px] bg-primary/30"></div>
+</div>
+</div>
+</div>
+<!-- Progress Bar Section -->
+<div class="w-full space-y-2 mb-8">
+<div class="flex justify-between items-end px-1">
+<span class="text-xs font-bold text-primary/70 uppercase">Progress</span>
+<span class="text-xl font-bold text-primary glow-text">LEVEL 042 <span class="text-sm font-normal text-primary/40">/ 600</span></span>
+</div>
+<div class="h-4 w-full bg-terminal-accent/50 rounded-lg border border-primary/20 p-1 overflow-hidden">
+<div class="h-full bg-primary rounded-sm shadow-[0_0_10px_rgba(46,209,87,0.6)]" style="width: 7%"></div>
+</div>
+</div>
+<!-- Action Buttons -->
+<nav class="w-full flex flex-col space-y-6">
+<button class="voxel-btn w-full bg-primary py-5 rounded-lg text-background-dark font-black text-xl tracking-widest flex items-center justify-center group">
+<span class="material-icons mr-2 group-hover:scale-110">videogame_asset</span>
+                SOLO MODE
+            </button>
+<button class="voxel-btn w-full bg-terminal-accent border-2 border-primary/40 py-5 rounded-lg text-primary font-black text-xl tracking-widest flex items-center justify-center group">
+<span class="material-icons mr-2 group-hover:scale-110">groups</span>
+                DUO MODE
+            </button>
+<button class="voxel-btn w-full bg-terminal-accent border-2 border-primary/40 py-5 rounded-lg text-primary font-black text-xl tracking-widest flex items-center justify-center group">
+<span class="material-icons mr-2 group-hover:scale-110">psychology</span>
+                FREE PLAY
+            </button>
+</nav>
+<!-- Footer Actions -->
+<footer class="w-full flex justify-between items-center mt-10">
+<button class="h-14 w-14 bg-terminal-accent border border-primary/30 rounded-xl flex items-center justify-center text-primary/80 hover:bg-primary hover:text-background-dark transition-colors">
+<span class="material-icons">leaderboard</span>
+</button>
+<div class="flex items-center space-x-1 opacity-40">
+<div class="w-1 h-1 bg-primary rounded-full"></div>
+<div class="w-1 h-1 bg-primary rounded-full"></div>
+<div class="w-1 h-1 bg-primary rounded-full"></div>
+</div>
+<button class="h-14 w-14 bg-terminal-accent border border-primary/30 rounded-xl flex items-center justify-center text-primary/80 hover:bg-primary hover:text-background-dark transition-colors">
+<span class="material-icons">settings</span>
+</button>
+</footer>
+</main>
+<!-- UI Overlay Elements for Authenticity -->
+<div class="fixed top-4 left-4 z-20 flex flex-col">
+<span class="text-[10px] text-primary/40">SYSTEM STATUS: OPTIMAL</span>
+<span class="text-[10px] text-primary/40 tracking-wider">LATENCY: 12MS</span>
+</div>
+<div class="fixed top-4 right-4 z-20 flex items-center space-x-3">
+<div class="flex flex-col items-end">
+<span class="text-[10px] text-primary/40">CREDITS</span>
+<span class="text-xs font-bold text-primary">12,450</span>
+</div>
+<div class="h-8 w-8 rounded-lg bg-primary/20 border border-primary/40 flex items-center justify-center">
+<span class="material-icons text-primary text-sm">toll</span>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Super Decoder Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2ed157",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#122016",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .voxel-brick {
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4), inset -2px -2px 0px rgba(0, 0, 0, 0.2), inset 2px 2px 0px rgba(255, 255, 255, 0.1);
+        }
+        .voxel-brick-inset {
+            box-shadow: inset 4px 4px 0px rgba(0, 0, 0, 0.5), 1px 1px 0px rgba(255, 255, 255, 0.05);
+        }
+        .neon-glow {
+            text-shadow: 0 0 10px #2ed157, 0 0 20px rgba(46, 209, 87, 0.4);
+        }
+        .scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30 min-h-screen flex justify-center">
+<!-- Mobile Container (Simulating iPhone aspect ratio) -->
+<div class="relative w-full max-w-[430px] min-h-screen bg-background-dark overflow-hidden border-x border-primary/10 shadow-2xl flex flex-col">
+<!-- Scanline Overlay -->
+<div class="absolute inset-0 scanlines opacity-30 z-50"></div>
+<!-- Header Navigation -->
+<header class="relative pt-12 pb-6 px-6 z-10">
+<div class="flex items-center justify-between">
+<button class="w-12 h-12 bg-primary/10 border-2 border-primary/30 rounded-lg voxel-brick flex items-center justify-center group active:translate-y-1 transition-transform">
+<span class="material-icons text-primary group-hover:scale-110 transition-transform">arrow_back_ios_new</span>
+</button>
+<div class="text-right">
+<h1 class="text-3xl font-bold tracking-tighter neon-glow text-primary uppercase leading-none">Settings</h1>
+<p class="text-[10px] text-primary/60 font-medium tracking-[0.2em] uppercase mt-1">Super Decoder v1.0.4</p>
+</div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 px-6 overflow-y-auto pb-12 space-y-8 z-10">
+<!-- Audio Section -->
+<section class="space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-icons text-primary/50 text-sm">volume_up</span>
+<h2 class="text-xs font-bold tracking-widest text-primary/50 uppercase">Audio Output</h2>
+</div>
+<!-- Sound FX Toggle -->
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-4 voxel-brick flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-lg font-bold tracking-tight">Sound FX</span>
+<span class="text-[10px] text-primary/40 uppercase">Voxel click &amp; UI chimes</span>
+</div>
+<!-- 3D Toggle Switch -->
+<button class="w-16 h-8 bg-black/40 rounded-full voxel-brick-inset relative p-1 group">
+<div class="absolute right-1 top-1 bottom-1 w-6 bg-primary rounded-full voxel-brick shadow-[0_0_15px_rgba(46,209,87,0.6)] flex items-center justify-center">
+<div class="w-1 h-3 bg-white/20 rounded-full"></div>
+</div>
+</button>
+</div>
+<!-- Music Toggle -->
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-4 voxel-brick flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-lg font-bold tracking-tight">Music</span>
+<span class="text-[10px] text-primary/40 uppercase">Synthwave ambiance</span>
+</div>
+<button class="w-16 h-8 bg-black/40 rounded-full voxel-brick-inset relative p-1">
+<div class="absolute right-1 top-1 bottom-1 w-6 bg-primary rounded-full voxel-brick shadow-[0_0_15px_rgba(46,209,87,0.6)] flex items-center justify-center">
+<div class="w-1 h-3 bg-white/20 rounded-full"></div>
+</div>
+</button>
+</div>
+</section>
+<!-- Gameplay Section -->
+<section class="space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-icons text-primary/50 text-sm">videogame_asset</span>
+<h2 class="text-xs font-bold tracking-widest text-primary/50 uppercase">Input &amp; Feedback</h2>
+</div>
+<!-- Vibration Toggle -->
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-4 voxel-brick flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-lg font-bold tracking-tight">Vibration</span>
+<span class="text-[10px] text-primary/40 uppercase">Tactile engine haptics</span>
+</div>
+<button class="w-16 h-8 bg-black/40 rounded-full voxel-brick-inset relative p-1">
+<div class="absolute left-1 top-1 bottom-1 w-6 bg-primary/20 border border-primary/40 rounded-full voxel-brick flex items-center justify-center">
+<div class="w-1 h-3 bg-primary/40 rounded-full"></div>
+</div>
+</button>
+</div>
+<!-- Colorblind Toggle -->
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-4 voxel-brick flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-lg font-bold tracking-tight">Voxel Patterns</span>
+<span class="text-[10px] text-primary/40 uppercase">Colorblind clarity mode</span>
+</div>
+<button class="w-16 h-8 bg-black/40 rounded-full voxel-brick-inset relative p-1">
+<div class="absolute left-1 top-1 bottom-1 w-6 bg-primary/20 border border-primary/40 rounded-full voxel-brick flex items-center justify-center">
+<div class="w-1 h-3 bg-primary/40 rounded-full"></div>
+</div>
+</button>
+</div>
+</section>
+<!-- Language Section -->
+<section class="space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-icons text-primary/50 text-sm">language</span>
+<h2 class="text-xs font-bold tracking-widest text-primary/50 uppercase">Data Localization</h2>
+</div>
+<div class="flex gap-2 bg-black/40 p-1.5 rounded-xl voxel-brick-inset">
+<button class="flex-1 py-3 text-sm font-bold bg-primary text-background-dark rounded-lg voxel-brick">EN</button>
+<button class="flex-1 py-3 text-sm font-bold text-primary/60 hover:text-primary transition-colors">JP</button>
+<button class="flex-1 py-3 text-sm font-bold text-primary/60 hover:text-primary transition-colors">CN</button>
+</div>
+</section>
+<!-- Quick Actions -->
+<section class="space-y-4 pt-4">
+<button class="w-full py-5 bg-primary/10 border-2 border-primary text-primary rounded-xl voxel-brick font-bold tracking-widest uppercase flex items-center justify-center gap-3 active:translate-y-1 transition-transform">
+<span class="material-icons">help_outline</span>
+                    How to Play
+                </button>
+<button class="w-full py-5 bg-red-500/10 border-2 border-red-500/50 text-red-500 rounded-xl voxel-brick font-bold tracking-widest uppercase flex items-center justify-center gap-3 active:translate-y-1 transition-transform">
+<span class="material-icons">delete_forever</span>
+                    Reset Progress
+                </button>
+</section>
+</main>
+<!-- Background Graphics -->
+<div class="absolute bottom-[-10%] right-[-10%] w-64 h-64 border border-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-[20%] left-[-20%] w-48 h-48 border border-primary/5 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Voxel Decor -->
+<div class="absolute bottom-6 right-6 opacity-20 flex gap-1 items-end z-0">
+<div class="w-4 h-12 bg-primary/40 rounded-t"></div>
+<div class="w-4 h-8 bg-primary/30 rounded-t"></div>
+<div class="w-4 h-16 bg-primary/50 rounded-t"></div>
+</div>
+</div>
+</body></html>
