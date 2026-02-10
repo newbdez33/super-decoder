@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Super Decoder",
+    "slug": "super-decoder",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "superdecoder",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#0A0A12"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.superdecoder.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0A0A12"
+      },
+      "package": "com.superdecoder.app"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-asset"
+    ]
+  }
+}

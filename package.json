@@ -2,46 +2,18 @@
   "name": "super-decoder",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "dev": "npm run dev -w @super-decoder/web",
+    "build": "npm run build -w @super-decoder/web",
+    "test": "npm run test -w @super-decoder/shared -w @super-decoder/web",
+    "test:e2e": "npm run test:e2e -w @super-decoder/web",
+    "lint": "npm run lint -w @super-decoder/web"
   },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.1.18",
-    "framer-motion": "^12.34.0",
-    "howler": "^2.2.4",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "tailwindcss": "^4.1.18",
-    "vite-plugin-pwa": "^1.2.0",
-    "zustand": "^5.0.11"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@playwright/test": "^1.58.2",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.1",
-    "@types/howler": "^2.2.12",
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "eslint": "^9.39.1",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
-    "globals": "^16.5.0",
-    "jsdom": "^28.0.0",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "^8.48.0",
-    "vite": "^7.3.1",
-    "vitest": "^4.0.18"
+  "overrides": {
+    "react-native": "0.76.9"
   }
 }

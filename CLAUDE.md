@@ -1,44 +1,75 @@
 # Super Decoder — Claude Code Guide
 
 ## Project Overview
-Super Decoder is a Mastermind-based code-breaking puzzle PWA with 600 levels, solo/duo/free play modes, LED retro-futuristic UI.
+Super Decoder is a Mastermind-based code-breaking puzzle game with 600 levels, solo/duo/free play modes, LED retro-futuristic UI. Monorepo with PWA (web) and React Native (mobile) apps sharing game logic.
 
 ## Tech Stack
-- **Framework**: React 19 + TypeScript (strict mode) + Vite 7
-- **Styling**: Tailwind CSS 4 + CSS Variables (LED glow effects)
-- **Animation**: Framer Motion
-- **State**: Zustand 5 (with persist middleware for localStorage)
-- **Audio**: Howler.js
-- **PWA**: vite-plugin-pwa
+- **Monorepo**: npm workspaces (`packages/*`, `apps/*`)
+- **Shared**: TypeScript (strict mode), Zustand 5
+- **Web**: React 19 + Vite 7, Tailwind CSS 4, Framer Motion, Howler.js, Playwright
+- **Mobile** (planned): Expo + React Native, moti + Reanimated, expo-av, expo-haptics
 - **Testing**: Vitest + React Testing Library + Playwright
 
 ## Commands
-- `npm run dev` — Start dev server
-- `npm run build` — Type-check and build
-- `npm test` — Run all Vitest tests
-- `npm run test:watch` — Vitest in watch mode
-- `npm run test:coverage` — Vitest with coverage
-- `npm run test:e2e` — Playwright E2E tests
-- `npm run lint` — ESLint
+- `npm test` — Run all Vitest tests (shared + web)
+- `npm run build` — Build web app
+- `npm run dev` — Start web dev server
+- `npm test -w @super-decoder/shared` — Shared package tests only
+- `npm test -w @super-decoder/web` — Web app tests only
+- `npm run test:e2e -w @super-decoder/web` — Playwright E2E tests
+- `npm run lint -w @super-decoder/web` — ESLint
 
 ## Project Structure
 ```
-src/
-├── logic/          # Pure functions: seededRandom, hintEngine, levelGenerator, constants
-├── stores/         # Zustand stores: gameStore, progressStore, settingsStore
-├── components/     # UI components: ColorSlot, ColorPicker, Hints, GuessRow, GameBoard
-├── screens/        # Full pages: HomeScreen, GameScreen, DuoSetterScreen, Settings
-├── hooks/          # Custom hooks: useSound, useVibrate
-├── types/          # TypeScript type definitions
-├── utils/          # Utilities: sound management
-└── test/           # Test setup files
-e2e/                # Playwright E2E tests
-docs/               # Spec documents and UI mockups
+super-decoder/
+├── package.json                    # workspaces: ["packages/*", "apps/*"]
+├── tsconfig.base.json              # shared TS strict config
+├── packages/
+│   └── shared/                     # @super-decoder/shared
+│       └── src/
+│           ├── logic/              # seededRandom, constants, hintEngine, levelGenerator
+│           ├── types/              # game.ts, theme.ts
+│           ├── themes/             # themes.ts (pure data, NOT applyTheme)
+│           ├── stores/             # gameStore, createProgressStore, createSettingsStore
+│           └── index.ts            # barrel export
+├── apps/
+│   ├── web/                        # @super-decoder/web (PWA)
+│   │   ├── src/
+│   │   │   ├── stores/             # progressStore.ts, settingsStore.ts (localStorage wrappers)
+│   │   │   ├── themes/             # applyTheme.ts (web-only, uses document)
+│   │   │   ├── components/         # 12 web components (HTML + CSS vars)
+│   │   │   ├── screens/            # 5 screens (HTML + framer-motion)
+│   │   │   └── test/               # Vitest setup
+│   │   └── e2e/                    # Playwright tests
+│   └── mobile/                     # @super-decoder/mobile (planned)
+```
+
+## Architecture: Shared vs Platform-Specific
+
+| Shared (`@super-decoder/shared`) | Web-only (`apps/web`) |
+|---|---|
+| `logic/*` (seededRandom, hintEngine, levelGenerator, constants) | `applyTheme.ts` (document.documentElement) |
+| `types/*` (game.ts, theme.ts) | 12 HTML components (div, button, CSS vars) |
+| `themes/themes.ts` (pure data) | 5 screens (framer-motion, window.confirm) |
+| `gameStore.ts` (no persistence) | `useSound` (Howler.js), `useVibrate` (navigator) |
+| `createProgressStore(storage)` factory | Store wrappers with localStorage |
+| `createSettingsStore(storage)` factory | Playwright E2E tests |
+
+## Store Pattern
+Persisted stores use factory functions accepting `StateStorage`:
+```typescript
+// packages/shared: factory
+export function createSettingsStore(storage: StateStorage) { ... }
+
+// apps/web: wrapper with localStorage
+export const useSettingsStore = createSettingsStore(localStorage);
+
+// apps/mobile: wrapper with AsyncStorage (planned)
+export const useSettingsStore = createSettingsStore(AsyncStorage);
 ```
 
 ## Development Methodology: BDD (Behavior-Driven Development)
 - **Tests first**: Write failing tests (RED), then implement code to pass (GREEN)
-- **Phase order**: P0 (core engine) → P1 (state) → P2 (UI) → P3 (integration) → P4-P8
 - **P0 target**: 100% coverage on pure logic functions
 
 ## Key Specs

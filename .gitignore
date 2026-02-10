@@ -18,6 +18,10 @@ playwright-report/
 blob-report/
 playwright/.cache/
 
+# Expo
+.expo/
+*.zip
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
