@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
@@ -36,16 +37,18 @@ export default function RootLayout() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme['--bg-deepest'] }]}>
-      <StatusBar style="light" />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: theme['--bg-deepest'] },
-          animation: 'slide_from_right',
-        }}
-      />
-    </View>
+    <SafeAreaProvider>
+      <View style={[styles.container, { backgroundColor: theme['--bg-deepest'] }]}>
+        <StatusBar style="light" />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: theme['--bg-deepest'] },
+            animation: 'slide_from_right',
+          }}
+        />
+      </View>
+    </SafeAreaProvider>
   );
 }
 
