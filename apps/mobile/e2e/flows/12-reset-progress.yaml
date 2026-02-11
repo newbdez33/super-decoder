@@ -1,0 +1,65 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "12 - Reset Progress"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Verify current level is shown on home
+- assertVisible:
+    id: "progress-bar"
+
+---
+
+# Test 2: Go to settings and find reset button
+- tapOn:
+    id: "btn-settings"
+- scrollUntilVisible:
+    element:
+      id: "btn-reset-progress"
+    direction: DOWN
+- assertVisible:
+    id: "btn-reset-progress"
+
+---
+
+# Test 3: Tap reset - alert appears with correct text
+- tapOn:
+    id: "btn-reset-progress"
+- assertVisible:
+    text: "Reset Progress"
+- assertVisible:
+    text: "Are you sure you want to reset all progress? This cannot be undone."
+
+---
+
+# Test 4: Cancel - progress unchanged
+- tapOn:
+    text: "Cancel"
+- assertVisible:
+    id: "settings-title"
+
+---
+
+# Test 5: Confirm reset - progress cleared
+- tapOn:
+    id: "btn-reset-progress"
+- assertVisible:
+    text: "Reset Progress"
+- tapOn:
+    text: "Reset"
+
+---
+
+# Test 6: Go home - progress bar shows Level 1
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"
+- assertVisible:
+    text: "Level 1 / 600"

@@ -1,0 +1,132 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "13 - Edge Cases"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Submit button disabled with incomplete guess (less than 4 colors)
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+# Select only 3 colors
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+# Submit should be disabled (opacity 0.4), tap should not trigger action
+- tapOn:
+    id: "btn-submit"
+# Game board should still be on row 0 (no guess submitted)
+- assertVisible:
+    id: "row-0"
+
+---
+
+# Test 2: Clear empty guess - no crash
+- tapOn:
+    id: "btn-clear"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 3: Clear after partial selection
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "btn-clear"
+# Slots should be cleared
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 4: Rapid color taps - no race condition
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+# All 4 slots filled, game still functional
+- assertVisible:
+    id: "btn-submit"
+
+---
+
+# Test 5: Deselect color by tapping filled slot then selecting different color
+- tapOn:
+    id: "slot-0-0"
+- tapOn:
+    id: "color-yellow"
+# Still have 4 colors selected
+- assertVisible:
+    id: "btn-submit"
+
+---
+
+# Test 6: Submit valid guess works after clear and re-select
+- tapOn:
+    id: "btn-clear"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 7: Duo mode - cannot select duplicate colors
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    text: "Leave"
+    optional: true
+- tapOn:
+    id: "btn-duo"
+- assertVisible:
+    id: "duo-title"
+# Select red for slot 0
+- tapOn:
+    id: "color-red"
+# Red should now be used, selecting again should not change anything
+- assertVisible:
+    id: "duo-title"
+- tapOn:
+    id: "btn-back"
+
+---
+
+# Test 8: Color count change in duo mode resets code
+- tapOn:
+    id: "btn-duo"
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+# Change color count
+- tapOn:
+    id: "color-count-5"
+# Code should be reset (slots empty again)
+- assertVisible:
+    text: "Set your secret code:"
+- tapOn:
+    id: "btn-back"

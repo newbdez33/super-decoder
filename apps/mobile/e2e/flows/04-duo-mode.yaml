@@ -1,0 +1,105 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "04 - Duo Mode"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Navigate Home -> DuoSetter screen
+- tapOn:
+    id: "btn-duo"
+- assertVisible:
+    id: "duo-title"
+- assertVisible:
+    text: "CODE SETTER"
+
+---
+
+# Test 2: Back button visible
+- assertVisible:
+    id: "btn-back"
+
+---
+
+# Test 3: Subtitle visible
+- assertVisible:
+    text: "Set your secret code:"
+
+---
+
+# Test 4: Color count selector visible with options 4-8
+- assertVisible:
+    id: "color-count-4"
+- assertVisible:
+    id: "color-count-5"
+- assertVisible:
+    id: "color-count-6"
+- assertVisible:
+    id: "color-count-7"
+- assertVisible:
+    id: "color-count-8"
+
+---
+
+# Test 5: Hint mode selector visible
+- assertVisible:
+    id: "hint-direct"
+- assertVisible:
+    id: "hint-indirect"
+
+---
+
+# Test 6: Confirm button visible but disabled initially
+- assertVisible:
+    id: "btn-confirm"
+- assertVisible:
+    text: "Confirm & Pass to Opponent"
+
+---
+
+# Test 7: Select 4 unique colors for secret code
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+
+---
+
+# Test 8: Confirm navigates to Game screen
+- tapOn:
+    id: "btn-confirm"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 9: Play through duo game - guess the secret we set (red, blue, green, yellow)
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 10: Win modal appears, go home
+- assertVisible:
+    text: "CODE CRACKED!"
+- tapOn:
+    id: "btn-home"
+- assertVisible:
+    id: "home-title"

@@ -1,0 +1,99 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "11 - Game Alerts"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Back with 0 guesses - no alert, returns home
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"
+
+---
+
+# Test 2: Back with 1+ guesses - "Leave game?" alert
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+# Submit a guess first
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+# Now try to go back
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    text: "Leave game?"
+
+---
+
+# Test 3: Cancel stays in game
+- tapOn:
+    text: "Cancel"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 4: Confirm Leave returns to home
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    text: "Leave game?"
+- tapOn:
+    text: "Leave"
+- assertVisible:
+    id: "home-title"
+
+---
+
+# Test 5: Back from completed game - no alert
+# Play a duo game with known code, win it, then go back
+- tapOn:
+    id: "btn-duo"
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-confirm"
+# Guess the secret we set
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+- assertVisible:
+    text: "CODE CRACKED!"
+- tapOn:
+    id: "btn-home"
+- assertVisible:
+    id: "home-title"

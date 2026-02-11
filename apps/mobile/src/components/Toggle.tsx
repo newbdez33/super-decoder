@@ -5,13 +5,15 @@ interface ToggleProps {
   enabled: boolean;
   onToggle: (value: boolean) => void;
   label: string;
+  testID?: string;
 }
 
-export function Toggle({ enabled, onToggle, label }: ToggleProps) {
+export function Toggle({ enabled, onToggle, label, testID }: ToggleProps) {
   const theme = useTheme();
 
   return (
     <Pressable
+      testID={testID}
       accessibilityRole="switch"
       accessibilityState={{ checked: enabled }}
       accessibilityLabel={label}

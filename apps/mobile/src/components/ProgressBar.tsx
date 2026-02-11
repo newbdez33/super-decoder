@@ -11,7 +11,7 @@ export function ProgressBar({ currentLevel }: ProgressBarProps) {
   const progress = ((currentLevel - 1) / TOTAL_LEVELS) * 100;
 
   return (
-    <View style={styles.container}>
+    <View testID="progress-bar" style={styles.container}>
       <Text style={[styles.label, { color: theme['--text-secondary'] }]}>
         Level {currentLevel} / {TOTAL_LEVELS}
       </Text>

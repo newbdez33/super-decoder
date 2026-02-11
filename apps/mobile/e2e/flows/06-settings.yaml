@@ -1,0 +1,135 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "06 - Settings Screen"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Navigate to Settings
+- tapOn:
+    id: "btn-settings"
+- assertVisible:
+    id: "settings-title"
+- assertVisible:
+    text: "SETTINGS"
+
+---
+
+# Test 2: Back button visible
+- assertVisible:
+    id: "btn-back"
+
+---
+
+# Test 3: Sound toggle visible and functional
+- assertVisible:
+    id: "toggle-sound"
+- assertVisible:
+    text: "Sound Effects"
+- tapOn:
+    id: "toggle-sound"
+- tapOn:
+    id: "toggle-sound"
+
+---
+
+# Test 4: Vibration toggle visible and functional
+- assertVisible:
+    id: "toggle-vibration"
+- assertVisible:
+    text: "Vibration"
+- tapOn:
+    id: "toggle-vibration"
+- tapOn:
+    id: "toggle-vibration"
+
+---
+
+# Test 5: Theme section visible with 3 theme cards
+- assertVisible:
+    text: "Theme"
+- assertVisible:
+    id: "theme-led-classic"
+- assertVisible:
+    text: "LED Classic"
+- assertVisible:
+    id: "theme-modern-flat"
+- assertVisible:
+    text: "Modern Flat"
+- assertVisible:
+    id: "theme-cyberpunk"
+- assertVisible:
+    text: "Cyberpunk"
+
+---
+
+# Test 6: Select Modern Flat theme
+- tapOn:
+    id: "theme-modern-flat"
+
+---
+
+# Test 7: Select Cyberpunk theme
+- tapOn:
+    id: "theme-cyberpunk"
+
+---
+
+# Test 8: Select back LED Classic theme
+- tapOn:
+    id: "theme-led-classic"
+
+---
+
+# Test 9: Color Blind Mode toggle
+- assertVisible:
+    id: "toggle-colorblind"
+- assertVisible:
+    text: "Color Blind Mode"
+- tapOn:
+    id: "toggle-colorblind"
+- tapOn:
+    id: "toggle-colorblind"
+
+---
+
+# Test 10: Language selector visible with 3 options
+- assertVisible:
+    text: "Language"
+- assertVisible:
+    id: "lang-en"
+- assertVisible:
+    text: "English"
+- assertVisible:
+    id: "lang-ja"
+- assertVisible:
+    text: "Japanese"
+- assertVisible:
+    id: "lang-zh"
+- assertVisible:
+    text: "Chinese"
+
+---
+
+# Test 11: Reset Progress button visible
+- scrollUntilVisible:
+    element:
+      id: "btn-reset-progress"
+    direction: DOWN
+- assertVisible:
+    id: "btn-reset-progress"
+- assertVisible:
+    text: "Reset All Progress"
+
+---
+
+# Test 12: Back to home
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"

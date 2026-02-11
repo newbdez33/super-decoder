@@ -28,6 +28,7 @@ export function ColorPicker({ availableColors, usedColors, onColorSelect, colorB
         return (
           <Pressable
             key={color}
+            testID={`color-${color}`}
             accessibilityLabel={color}
             accessibilityState={{ disabled: isUsed }}
             onPress={() => onColorSelect(color)}

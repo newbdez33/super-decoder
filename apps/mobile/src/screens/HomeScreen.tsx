@@ -66,6 +66,7 @@ export function HomeScreen() {
         </Text>
         {/* Visible text */}
         <Text
+          testID="home-title"
           style={[
             styles.title,
             {
@@ -86,6 +87,7 @@ export function HomeScreen() {
 
       <View style={styles.menu}>
         <MenuButton
+          testID="btn-solo"
           label="SOLO MODE"
           sublabel="Single player"
           icon={'\u25B6'}
@@ -94,6 +96,7 @@ export function HomeScreen() {
           onPress={handleSolo}
         />
         <MenuButton
+          testID="btn-duo"
           label="DUO MODE"
           sublabel="Two players"
           icon={'\u{1F465}'}
@@ -101,6 +104,7 @@ export function HomeScreen() {
           onPress={handleDuo}
         />
         <MenuButton
+          testID="btn-freeplay"
           label="FREE PLAY"
           sublabel="Practice"
           icon={'\u{1F3B2}'}
@@ -110,12 +114,14 @@ export function HomeScreen() {
 
         <View style={styles.smallRow}>
           <Pressable
+            testID="btn-stats"
             onPress={() => router.push('/stats')}
             style={[styles.smallBtn, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}
           >
             <Text style={[styles.smallBtnText, { color: theme['--text-secondary'] }]}>Stats</Text>
           </Pressable>
           <Pressable
+            testID="btn-settings"
             onPress={() => router.push('/settings')}
             style={[styles.smallBtn, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}
           >
@@ -127,7 +133,8 @@ export function HomeScreen() {
   );
 }
 
-function MenuButton({ label, sublabel, icon, primary, theme, onPress }: {
+function MenuButton({ testID, label, sublabel, icon, primary, theme, onPress }: {
+  testID: string;
   label: string;
   sublabel: string;
   icon: string;
@@ -139,6 +146,7 @@ function MenuButton({ label, sublabel, icon, primary, theme, onPress }: {
 
   return (
     <Pressable
+      testID={testID}
       onPress={onPress}
       style={[
         styles.menuBtn,

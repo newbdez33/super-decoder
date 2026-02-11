@@ -1,0 +1,88 @@
+appId: host.exp.exponent
+tags:
+  - smoke
+  - full
+name: "10 - Navigation"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Home -> Solo -> Back -> Home
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"
+
+---
+
+# Test 2: Home -> Duo Setup -> Back -> Home
+- tapOn:
+    id: "btn-duo"
+- assertVisible:
+    id: "duo-title"
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"
+
+---
+
+# Test 3: Home -> Free Play -> Back -> Home
+- tapOn:
+    id: "btn-freeplay"
+- assertVisible:
+    id: "game-screen"
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"
+
+---
+
+# Test 4: Home -> Stats -> Back -> Home
+- tapOn:
+    id: "btn-stats"
+- assertVisible:
+    id: "stats-title"
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"
+
+---
+
+# Test 5: Home -> Settings -> Back -> Home
+- tapOn:
+    id: "btn-settings"
+- assertVisible:
+    id: "settings-title"
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"
+
+---
+
+# Test 6: Multiple rapid navigations
+- tapOn:
+    id: "btn-stats"
+- assertVisible:
+    id: "stats-title"
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    id: "btn-settings"
+- assertVisible:
+    id: "settings-title"
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"

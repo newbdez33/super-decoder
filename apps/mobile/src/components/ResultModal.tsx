@@ -32,9 +32,10 @@ export function ResultModal({
   return (
     <Modal visible={isOpen} transparent animationType="slide">
       <View style={[styles.overlay, { backgroundColor: 'rgba(0,0,0,0.7)' }]}>
-        <View style={[styles.sheet, { backgroundColor: theme['--bg-panel'] }]}>
+        <View testID="result-modal" style={[styles.sheet, { backgroundColor: theme['--bg-panel'] }]}>
           <ScrollView contentContainerStyle={styles.content}>
             <Text
+              testID="result-title"
               style={[
                 styles.title,
                 {
@@ -74,6 +75,7 @@ export function ResultModal({
               {isWon ? (
                 <>
                   <Pressable
+                    testID="btn-next"
                     onPress={onNext}
                     style={[styles.primaryBtn, { backgroundColor: theme['--text-accent'] }]}
                   >
@@ -83,6 +85,7 @@ export function ResultModal({
                   </Pressable>
                   <View style={styles.buttonRow}>
                     <Pressable
+                      testID="btn-home"
                       onPress={onHome}
                       style={[styles.secondaryBtn, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}
                     >
@@ -91,6 +94,7 @@ export function ResultModal({
                       </Text>
                     </Pressable>
                     <Pressable
+                      testID="btn-replay"
                       onPress={onRetry}
                       style={[styles.secondaryBtn, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}
                     >
@@ -103,6 +107,7 @@ export function ResultModal({
               ) : (
                 <>
                   <Pressable
+                    testID="btn-retry"
                     onPress={onRetry}
                     style={[styles.primaryBtn, { backgroundColor: theme['--text-accent'] }]}
                   >
@@ -112,6 +117,7 @@ export function ResultModal({
                   </Pressable>
                   {onSkip && (
                     <Pressable
+                      testID="btn-skip"
                       onPress={onSkip}
                       style={[styles.secondaryBtn, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}
                     >

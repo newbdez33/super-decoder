@@ -50,11 +50,12 @@ export function DuoSetterScreen() {
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme['--bg-deepest'] }]} contentContainerStyle={styles.content}>
-      <Pressable onPress={() => router.back()} style={styles.backBtn}>
+      <Pressable testID="btn-back" onPress={() => router.back()} style={styles.backBtn}>
         <Text style={[styles.backText, { color: theme['--text-primary'] }]}>{'\u2190'}</Text>
       </Pressable>
 
       <Text
+        testID="duo-title"
         style={[
           styles.title,
           {
@@ -96,6 +97,7 @@ export function DuoSetterScreen() {
         {[4, 5, 6, 7, 8].map(n => (
           <Pressable
             key={n}
+            testID={`color-count-${n}`}
             onPress={() => {
               setNumColors(n);
               setCode([null, null, null, null]);
@@ -119,6 +121,7 @@ export function DuoSetterScreen() {
         {(['direct', 'indirect'] as const).map(type => (
           <Pressable
             key={type}
+            testID={`hint-${type}`}
             onPress={() => setHintType(type)}
             style={[
               styles.optionBtn,
@@ -137,6 +140,7 @@ export function DuoSetterScreen() {
       </View>
 
       <Pressable
+        testID="btn-confirm"
         onPress={handleConfirm}
         style={[
           styles.confirmBtn,

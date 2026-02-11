@@ -70,7 +70,7 @@ export function GameScreen() {
   }, [isFreeOrDuo, currentLevel, router]);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme['--bg-deepest'] }]}>
+    <View testID="game-screen" style={[styles.container, { backgroundColor: theme['--bg-deepest'] }]}>
       <GameHeader
         levelId={levelId}
         currentRound={store.currentRound}

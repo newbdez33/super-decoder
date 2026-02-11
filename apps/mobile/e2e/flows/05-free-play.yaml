@@ -1,0 +1,88 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "05 - Free Play"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Free Play button navigates to Game screen
+- tapOn:
+    id: "btn-freeplay"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 2: Game header visible
+- assertVisible:
+    id: "level-display"
+- assertVisible:
+    id: "mode-badge"
+
+---
+
+# Test 3: Color picker shows 6 colors for free play
+- assertVisible:
+    id: "color-red"
+- assertVisible:
+    id: "color-blue"
+- assertVisible:
+    id: "color-green"
+- assertVisible:
+    id: "color-yellow"
+- assertVisible:
+    id: "color-orange"
+- assertVisible:
+    id: "color-purple"
+
+---
+
+# Test 4: Clear and Submit buttons visible
+- assertVisible:
+    id: "btn-clear"
+- assertVisible:
+    id: "btn-submit"
+
+---
+
+# Test 5: Select colors and submit a guess
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 6: Continue guessing (hints appear after first guess)
+- tapOn:
+    id: "color-orange"
+- tapOn:
+    id: "color-purple"
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 7: Go back to home (dismiss alert if it appears)
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    text: "Leave"
+    optional: true
+- assertVisible:
+    id: "home-title"

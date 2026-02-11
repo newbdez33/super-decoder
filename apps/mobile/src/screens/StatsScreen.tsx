@@ -16,10 +16,11 @@ export function StatsScreen() {
   return (
     <View style={[styles.container, { backgroundColor: theme['--bg-deepest'] }]}>
       <View style={styles.header}>
-        <Pressable onPress={() => router.back()} style={styles.backBtn}>
+        <Pressable testID="btn-back" onPress={() => router.back()} style={styles.backBtn}>
           <Text style={[styles.backText, { color: theme['--text-primary'] }]}>{'\u2190'}</Text>
         </Pressable>
         <Text
+          testID="stats-title"
           style={[
             styles.title,
             {
@@ -35,13 +36,14 @@ export function StatsScreen() {
       </View>
 
       <View style={styles.grid}>
-        <StatCard label="Games Played" value={stats.totalPlayed} theme={theme} />
-        <StatCard label="Games Won" value={stats.totalWon} theme={theme} />
-        <StatCard label="Win Rate" value={`${winRate}%`} theme={theme} />
-        <StatCard label="Current Level" value={currentLevel} theme={theme} accent />
-        <StatCard label="Current Streak" value={stats.currentStreak} theme={theme} />
-        <StatCard label="Best Streak" value={stats.bestStreak} theme={theme} accent />
+        <StatCard testID="stat-games-played" label="Games Played" value={stats.totalPlayed} theme={theme} />
+        <StatCard testID="stat-games-won" label="Games Won" value={stats.totalWon} theme={theme} />
+        <StatCard testID="stat-win-rate" label="Win Rate" value={`${winRate}%`} theme={theme} />
+        <StatCard testID="stat-current-level" label="Current Level" value={currentLevel} theme={theme} accent />
+        <StatCard testID="stat-current-streak" label="Current Streak" value={stats.currentStreak} theme={theme} />
+        <StatCard testID="stat-best-streak" label="Best Streak" value={stats.bestStreak} theme={theme} accent />
         <StatCard
+          testID="stat-avg-attempts"
           label="Avg Attempts"
           value={stats.averageAttempts > 0 ? stats.averageAttempts.toFixed(1) : '-'}
           theme={theme}
@@ -51,14 +53,15 @@ export function StatsScreen() {
   );
 }
 
-function StatCard({ label, value, theme, accent }: {
+function StatCard({ testID, label, value, theme, accent }: {
+  testID: string;
   label: string;
   value: string | number;
   theme: Record<string, string>;
   accent?: boolean;
 }) {
   return (
-    <View style={[styles.card, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}>
+    <View testID={testID} style={[styles.card, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}>
       <Text
         style={[
           styles.cardValue,

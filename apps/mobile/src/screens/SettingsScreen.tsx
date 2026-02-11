@@ -32,10 +32,11 @@ export function SettingsScreen() {
   return (
     <View style={[styles.container, { backgroundColor: theme['--bg-deepest'] }]}>
       <View style={styles.header}>
-        <Pressable onPress={() => router.back()} style={styles.backBtn}>
+        <Pressable testID="btn-back" onPress={() => router.back()} style={styles.backBtn}>
           <Text style={[styles.backText, { color: theme['--text-primary'] }]}>{'\u2190'}</Text>
         </Pressable>
         <Text
+          testID="settings-title"
           style={[
             styles.title,
             {
@@ -52,11 +53,11 @@ export function SettingsScreen() {
 
       <View style={styles.body}>
         <SettingRow label="Sound Effects" theme={theme}>
-          <Toggle enabled={settings.soundEnabled} onToggle={settings.setSoundEnabled} label="Sound effects" />
+          <Toggle testID="toggle-sound" enabled={settings.soundEnabled} onToggle={settings.setSoundEnabled} label="Sound effects" />
         </SettingRow>
 
         <SettingRow label="Vibration" theme={theme}>
-          <Toggle enabled={settings.vibrationEnabled} onToggle={settings.setVibrationEnabled} label="Vibration" />
+          <Toggle testID="toggle-vibration" enabled={settings.vibrationEnabled} onToggle={settings.setVibrationEnabled} label="Vibration" />
         </SettingRow>
 
         <Divider label="Theme" theme={theme} />
@@ -65,6 +66,7 @@ export function SettingsScreen() {
           {THEMES.map(t => (
             <Pressable
               key={t.id}
+              testID={`theme-${t.id}`}
               onPress={() => settings.setTheme(t.id)}
               style={[
                 styles.themeCard,
@@ -93,7 +95,7 @@ export function SettingsScreen() {
         <Divider label="Gameplay" theme={theme} />
 
         <SettingRow label="Color Blind Mode" theme={theme}>
-          <Toggle enabled={settings.colorBlindMode} onToggle={settings.setColorBlindMode} label="Color blind mode" />
+          <Toggle testID="toggle-colorblind" enabled={settings.colorBlindMode} onToggle={settings.setColorBlindMode} label="Color blind mode" />
         </SettingRow>
 
         <SettingRow label="Language" theme={theme}>
@@ -101,6 +103,7 @@ export function SettingsScreen() {
             {languages.map(lang => (
               <Pressable
                 key={lang.value}
+                testID={`lang-${lang.value}`}
                 onPress={() => settings.setLanguage(lang.value)}
                 style={[
                   styles.langBtn,
@@ -119,6 +122,7 @@ export function SettingsScreen() {
         <Divider label="Data" theme={theme} />
 
         <Pressable
+          testID="btn-reset-progress"
           onPress={handleReset}
           style={[styles.resetBtn, { borderColor: theme['--failure'] }]}
         >

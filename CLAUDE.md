@@ -8,7 +8,7 @@ Super Decoder is a Mastermind-based code-breaking puzzle game with 600 levels, s
 - **Shared**: TypeScript (strict mode), Zustand 5
 - **Web**: React 19 + Vite 7, Tailwind CSS 4, Framer Motion, Howler.js, Playwright
 - **Mobile**: Expo SDK 52 + React Native 0.76, Reanimated, expo-haptics, expo-router
-- **Testing**: Vitest + React Testing Library + Playwright
+- **Testing**: Vitest + React Testing Library + Playwright + Maestro (mobile E2E)
 
 ## Commands
 - `npm test` — Run all Vitest tests (shared + web)
@@ -20,6 +20,8 @@ Super Decoder is a Mastermind-based code-breaking puzzle game with 600 levels, s
 - `npm run lint -w @super-decoder/web` — ESLint
 - `npm start -w @super-decoder/mobile` — Start Expo dev server (mobile)
 - `npx expo start --android` — Run mobile app on Android emulator (from `apps/mobile/`)
+- `npm run e2e -w @super-decoder/mobile` — Run all Maestro E2E flows (21 flows)
+- `npm run e2e:single -w @super-decoder/mobile -- e2e/flows/02-solo-win.yaml` — Run single flow
 
 ## Project Structure
 ```
@@ -51,6 +53,8 @@ super-decoder/
 │       │   ├── stores/             # AsyncStorage wrappers
 │       │   └── themes/             # useTheme hook
 │       ├── assets/fonts/           # Orbitron + Exo 2 TTFs
+│       ├── .maestro/config.yaml    # Maestro E2E test config
+│       ├── e2e/flows/              # 21 Maestro YAML test flows
 │       └── metro.config.js         # monorepo watchFolders config
 ```
 
@@ -128,6 +132,15 @@ export const useSettingsStore = createSettingsStore(AsyncStorage);
 - Max game width 480px, centered on larger screens
 - Safe Area Insets for notch devices
 - All animations via Framer Motion (web) / Reanimated (mobile)
+
+## Mobile E2E Testing (Maestro)
+- 21 YAML flows in `apps/mobile/e2e/flows/` (13 existing + 8 new)
+- Config: `apps/mobile/.maestro/config.yaml`
+- Test plan: `docs/mobile-ui-test-plan.md`
+- Smoke suite (PRs): flows 01, 02, 03, 10 — tagged `smoke`
+- Full suite (push to develop/main): all 21 flows — tagged `full`
+- CI: `.github/workflows/mobile-e2e.yml` — Android (ubuntu) + iOS (macos) jobs
+- All interactive elements have `testID` props for Maestro selectors
 
 ## Android Development Setup
 - **Android SDK**: `C:\Users\newbd\Android\Sdk`

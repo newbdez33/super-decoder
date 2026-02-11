@@ -1,0 +1,110 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "07 - Stats Screen"
+
+---
+
+# Launch app with fresh state so stats are zero
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Navigate to Stats
+- tapOn:
+    id: "btn-stats"
+- assertVisible:
+    id: "stats-title"
+- assertVisible:
+    text: "STATISTICS"
+
+---
+
+# Test 2: Back button visible
+- assertVisible:
+    id: "btn-back"
+
+---
+
+# Test 3: All 7 stat cards visible
+- assertVisible:
+    id: "stat-games-played"
+- assertVisible:
+    text: "Games Played"
+
+- assertVisible:
+    id: "stat-games-won"
+- assertVisible:
+    text: "Games Won"
+
+- assertVisible:
+    id: "stat-win-rate"
+- assertVisible:
+    text: "Win Rate"
+
+- assertVisible:
+    id: "stat-current-level"
+- assertVisible:
+    text: "Current Level"
+
+- assertVisible:
+    id: "stat-current-streak"
+- assertVisible:
+    text: "Current Streak"
+
+- assertVisible:
+    id: "stat-best-streak"
+- assertVisible:
+    text: "Best Streak"
+
+---
+
+# Test 4: Avg Attempts card visible
+- scrollUntilVisible:
+    element:
+      id: "stat-avg-attempts"
+    direction: DOWN
+- assertVisible:
+    id: "stat-avg-attempts"
+- assertVisible:
+    text: "Avg Attempts"
+
+---
+
+# Test 5: Initial state - all values are 0 or default
+- assertVisible:
+    id: "stat-games-played"
+- assertVisible:
+    id: "stat-games-won"
+- assertVisible:
+    id: "stat-win-rate"
+- assertVisible:
+    text: "0%"
+
+---
+
+# Test 6: Current Level card shows level 1
+- assertVisible:
+    id: "stat-current-level"
+
+---
+
+# Test 7: Streak cards visible
+- assertVisible:
+    id: "stat-current-streak"
+- assertVisible:
+    id: "stat-best-streak"
+
+---
+
+# Test 8: Avg Attempts shows dash when no games played
+- assertVisible:
+    text: "-"
+
+---
+
+# Test 9: Back to home
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"

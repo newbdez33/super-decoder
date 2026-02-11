@@ -23,6 +23,8 @@ export function GameBoard({ colorBlindMode }: GameBoardProps) {
         return (
           <GuessRow
             key={i}
+            testID={`row-${i}`}
+            rowIndex={i}
             guess={isCompleted ? guesses[i] : null}
             isActive={isCurrent}
             isCurrent={isCurrent}

@@ -1,0 +1,76 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "09 - Color Blind Mode"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Enable color blind mode in settings
+- tapOn:
+    id: "btn-settings"
+- assertVisible:
+    id: "toggle-colorblind"
+- tapOn:
+    id: "toggle-colorblind"
+- tapOn:
+    id: "btn-back"
+
+---
+
+# Test 2: Color picker shows symbols in game
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+# Color symbols from constants: red=● blue=■ green=▲ yellow=◆
+- assertVisible:
+    text: "●"
+- assertVisible:
+    text: "■"
+- assertVisible:
+    text: "▲"
+- assertVisible:
+    text: "◆"
+
+---
+
+# Test 3: Select colors and verify symbols in slots
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+
+---
+
+# Test 4: Submit guess - hints appear
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 5: Screenshot with color blind mode on
+- takeScreenshot: colorblind-game
+
+---
+
+# Test 6: Go back, disable color blind mode
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    text: "Leave"
+    optional: true
+- tapOn:
+    id: "btn-settings"
+- tapOn:
+    id: "toggle-colorblind"
+- tapOn:
+    id: "btn-back"

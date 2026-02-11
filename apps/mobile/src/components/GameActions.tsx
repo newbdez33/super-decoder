@@ -16,6 +16,7 @@ export function GameActions({ canSubmit, isComplete, onSubmit, onClear }: GameAc
   return (
     <View style={styles.container}>
       <Pressable
+        testID="btn-clear"
         accessibilityLabel="Clear"
         onPress={onClear}
         style={[
@@ -30,6 +31,7 @@ export function GameActions({ canSubmit, isComplete, onSubmit, onClear }: GameAc
         <Text style={[styles.clearText, { color: theme['--text-secondary'] }]}>Clear</Text>
       </Pressable>
       <Pressable
+        testID="btn-submit"
         accessibilityLabel="Submit guess"
         onPress={canSubmit ? onSubmit : undefined}
         style={[

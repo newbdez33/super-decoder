@@ -9,6 +9,7 @@ interface ColorSlotProps {
   isDisabled: boolean;
   colorBlindMode: boolean;
   onPress: () => void;
+  testID?: string;
 }
 
 const colorHexMap: Record<Color, string> = Object.fromEntries(
@@ -19,12 +20,13 @@ const colorSymbolMap: Record<Color, string> = Object.fromEntries(
   COLORS.map(c => [c.name, c.symbol])
 ) as Record<Color, string>;
 
-export function ColorSlot({ color, isSelected, isDisabled, colorBlindMode, onPress }: ColorSlotProps) {
+export function ColorSlot({ color, isSelected, isDisabled, colorBlindMode, onPress, testID }: ColorSlotProps) {
   const theme = useTheme();
   const label = color ? `${color} slot` : 'Empty slot';
 
   return (
     <Pressable
+      testID={testID}
       accessibilityLabel={label}
       accessibilityState={{ selected: isSelected, disabled: isDisabled }}
       onPress={isDisabled ? undefined : onPress}

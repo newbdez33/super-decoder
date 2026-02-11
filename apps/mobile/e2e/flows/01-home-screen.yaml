@@ -1,0 +1,86 @@
+appId: host.exp.exponent
+tags:
+  - smoke
+  - full
+name: "01 - Home Screen"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: App launches and title is visible
+- assertVisible:
+    id: "home-title"
+- assertVisible:
+    text: "SUPER"
+- assertVisible:
+    text: "DECODER"
+
+---
+
+# Test 2: All navigation buttons visible
+- assertVisible:
+    id: "btn-solo"
+- assertVisible:
+    text: "SOLO MODE"
+- assertVisible:
+    text: "Single player"
+
+- assertVisible:
+    id: "btn-duo"
+- assertVisible:
+    text: "DUO MODE"
+- assertVisible:
+    text: "Two players"
+
+- assertVisible:
+    id: "btn-freeplay"
+- assertVisible:
+    text: "FREE PLAY"
+- assertVisible:
+    text: "Practice"
+
+---
+
+# Test 3: Stats and Settings buttons visible
+- assertVisible:
+    id: "btn-stats"
+- assertVisible:
+    text: "Stats"
+
+- assertVisible:
+    id: "btn-settings"
+- assertVisible:
+    text: "Settings"
+
+---
+
+# Test 4: Progress bar visible with level info
+- assertVisible:
+    id: "progress-bar"
+- assertVisible:
+    text: "Level 1 / 600"
+
+---
+
+# Test 5: Solo button is primary (has accent styling)
+- assertVisible:
+    id: "btn-solo"
+
+---
+
+# Test 6: Buttons respond to press
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+- tapOn:
+    id: "btn-back"
+
+---
+
+# Test 7: Screenshot baseline
+- takeScreenshot: home-screen-default

@@ -17,6 +17,7 @@ export function GameHeader({ levelId, currentRound, mode, onBack }: GameHeaderPr
   return (
     <View style={styles.container}>
       <Pressable
+        testID="btn-back"
         accessibilityLabel="Back"
         onPress={onBack}
         style={styles.backBtn}
@@ -26,6 +27,7 @@ export function GameHeader({ levelId, currentRound, mode, onBack }: GameHeaderPr
 
       <View style={styles.center}>
         <Text
+          testID="level-display"
           style={[
             styles.level,
             {
@@ -52,6 +54,7 @@ export function GameHeader({ levelId, currentRound, mode, onBack }: GameHeaderPr
       </View>
 
       <Text
+        testID="mode-badge"
         style={[
           styles.mode,
           { color: mode === 'easy' ? theme['--hint-correct'] : '#FF9F0A' },

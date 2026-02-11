@@ -1,0 +1,62 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "08 - Theme Switching"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Navigate to Settings
+- tapOn:
+    id: "btn-settings"
+- assertVisible:
+    id: "settings-title"
+
+---
+
+# Test 2: Default theme is LED Classic (first theme selected)
+- assertVisible:
+    id: "theme-led-classic"
+
+---
+
+# Test 3: Switch to Modern Flat theme
+- tapOn:
+    id: "theme-modern-flat"
+- takeScreenshot: theme-modern-flat
+
+---
+
+# Test 4: Switch to Cyberpunk theme
+- tapOn:
+    id: "theme-cyberpunk"
+- takeScreenshot: theme-cyberpunk
+
+---
+
+# Test 5: Switch back to LED Classic
+- tapOn:
+    id: "theme-led-classic"
+- takeScreenshot: theme-led-classic
+
+---
+
+# Test 6: Theme persists across screens - go to stats and back
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    id: "btn-stats"
+- assertVisible:
+    id: "stats-title"
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    id: "btn-settings"
+- assertVisible:
+    id: "theme-led-classic"
+- tapOn:
+    id: "btn-back"
