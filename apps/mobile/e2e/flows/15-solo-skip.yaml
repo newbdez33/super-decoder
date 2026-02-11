@@ -1,0 +1,160 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "15 - Solo Mode Skip"
+
+---
+
+# Launch app with fresh state so we're on level 1
+# Level 1 secret: yellow, blue, red, green
+# Submit 7 wrong guesses to trigger lose, then skip
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Navigate to solo game
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+- assertVisible:
+    text: "LV.001"
+
+---
+
+# Guess 1: red, blue, green, yellow (wrong order)
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 2
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 3
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 4
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 5
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 6
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 7 (final)
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 1: Lose modal appears
+- assertVisible:
+    id: "result-modal"
+- assertVisible:
+    text: "CODE INTACT"
+
+---
+
+# Test 2: Skip button visible
+- assertVisible:
+    id: "btn-skip"
+- assertVisible:
+    text: "Skip"
+
+---
+
+# Test 3: Tap Skip to advance to next level
+- tapOn:
+    id: "btn-skip"
+
+---
+
+# Test 4: Verify level advanced to LV.002
+- assertVisible:
+    id: "game-screen"
+- assertVisible:
+    text: "LV.002"
+
+---
+
+# Test 5: Go back home
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    text: "Leave"
+    optional: true
+- assertVisible:
+    id: "home-title"

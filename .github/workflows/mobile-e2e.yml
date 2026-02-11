@@ -1,0 +1,245 @@
+name: Mobile E2E Tests (Maestro)
+
+on:
+  pull_request:
+    paths:
+      - 'apps/mobile/**'
+      - 'packages/shared/**'
+  push:
+    branches: [develop, main]
+    paths:
+      - 'apps/mobile/**'
+      - 'packages/shared/**'
+
+env:
+  EXPO_SDK_VERSION: "52.0.0"
+  APP_ID: host.exp.exponent
+
+jobs:
+  maestro-android:
+    name: Maestro E2E (Android)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build shared package
+        run: npm run build -w @super-decoder/shared
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install Maestro CLI
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: AVD Cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-api-34-${{ runner.os }}
+
+      - name: Create AVD and run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          disable-animations: true
+          script: |
+            # Download and install Expo Go on emulator
+            EXPO_APK_URL=$(curl -sL https://api.expo.dev/v2/versions/latest | jq -r ".sdkVersions[\"$EXPO_SDK_VERSION\"].androidClientUrl")
+            if [ -z "$EXPO_APK_URL" ] || [ "$EXPO_APK_URL" = "null" ]; then
+              echo "ERROR: Could not resolve Expo Go APK URL for SDK $EXPO_SDK_VERSION"
+              exit 1
+            fi
+            curl -sL "$EXPO_APK_URL" -o /tmp/expo-go.apk
+            adb install -r /tmp/expo-go.apk
+
+            # Start Expo dev server in background
+            cd apps/mobile
+            npx expo start --android --no-dev --minify &
+            EXPO_PID=$!
+
+            # Wait for app to be ready (poll for up to 120 seconds)
+            echo "Waiting for app to launch on emulator..."
+            for i in $(seq 1 24); do
+              if adb shell dumpsys activity activities 2>/dev/null | grep -q "$APP_ID"; then
+                echo "App is running after $((i * 5)) seconds"
+                break
+              fi
+              if [ "$i" -eq 24 ]; then
+                echo "ERROR: App did not launch within 120 seconds"
+                kill $EXPO_PID 2>/dev/null || true
+                exit 1
+              fi
+              sleep 5
+            done
+
+            # Create screenshots directory
+            mkdir -p e2e/screenshots
+
+            # Run Maestro tests
+            maestro test e2e/flows/ --format junit --output e2e-results.xml
+
+            # Cleanup
+            kill $EXPO_PID 2>/dev/null || true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-results-android
+          path: |
+            apps/mobile/e2e-results.xml
+            apps/mobile/e2e/screenshots/
+          retention-days: 14
+
+      - name: Upload Maestro screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-failure-screenshots-android
+          path: ~/.maestro/tests/
+          retention-days: 7
+
+  maestro-ios:
+    name: Maestro E2E (iOS)
+    runs-on: macos-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build shared package
+        run: npm run build -w @super-decoder/shared
+
+      - name: Install Maestro CLI
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Boot iOS Simulator
+        run: |
+          # List available runtimes and devices
+          xcrun simctl list runtimes
+          xcrun simctl list devices
+
+          # Find an iPhone 15 device or create one
+          DEVICE_ID=$(xcrun simctl list devices available -j | jq -r '.devices | to_entries[] | select(.key | contains("iOS-17")) | .value[] | select(.name == "iPhone 15") | .udid' | head -1)
+
+          if [ -z "$DEVICE_ID" ]; then
+            echo "No iPhone 15 with iOS 17 found, creating one..."
+            RUNTIME=$(xcrun simctl list runtimes -j | jq -r '.runtimes[] | select(.name | contains("iOS 17")) | .identifier' | head -1)
+            DEVICE_TYPE=$(xcrun simctl list devicetypes -j | jq -r '.devicetypes[] | select(.name == "iPhone 15") | .identifier')
+            DEVICE_ID=$(xcrun simctl create "iPhone 15" "$DEVICE_TYPE" "$RUNTIME")
+          fi
+
+          echo "Booting simulator: $DEVICE_ID"
+          xcrun simctl boot "$DEVICE_ID" || true
+          echo "SIMULATOR_UDID=$DEVICE_ID" >> $GITHUB_ENV
+
+          # Wait for simulator to be ready
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+
+      - name: Install Expo Go on Simulator
+        run: |
+          # Download Expo Go for iOS simulator
+          EXPO_IOS_URL=$(curl -sL https://api.expo.dev/v2/versions/latest | jq -r ".sdkVersions[\"$EXPO_SDK_VERSION\"].iosClientUrl")
+          if [ -z "$EXPO_IOS_URL" ] || [ "$EXPO_IOS_URL" = "null" ]; then
+            echo "ERROR: Could not resolve Expo Go iOS URL for SDK $EXPO_SDK_VERSION"
+            exit 1
+          fi
+          curl -sL "$EXPO_IOS_URL" -o /tmp/expo-go-ios.tar.gz
+          mkdir -p /tmp/expo-go-ios
+          tar -xzf /tmp/expo-go-ios.tar.gz -C /tmp/expo-go-ios
+          EXPO_APP=$(find /tmp/expo-go-ios -name "*.app" -type d | head -1)
+          xcrun simctl install "$SIMULATOR_UDID" "$EXPO_APP"
+
+      - name: Start Expo and run Maestro tests
+        run: |
+          cd apps/mobile
+
+          # Start Expo dev server in background
+          npx expo start --ios --no-dev --minify &
+          EXPO_PID=$!
+
+          # Wait for app to be ready (poll for up to 120 seconds)
+          echo "Waiting for app to launch on simulator..."
+          for i in $(seq 1 24); do
+            if xcrun simctl listapps "$SIMULATOR_UDID" 2>/dev/null | grep -q "$APP_ID"; then
+              echo "App is available after $((i * 5)) seconds"
+              sleep 10  # Extra wait for app to fully render
+              break
+            fi
+            if [ "$i" -eq 24 ]; then
+              echo "ERROR: App did not launch within 120 seconds"
+              kill $EXPO_PID 2>/dev/null || true
+              exit 1
+            fi
+            sleep 5
+          done
+
+          # Create screenshots directory
+          mkdir -p e2e/screenshots
+
+          # Run Maestro tests
+          maestro test e2e/flows/ --format junit --output e2e-results.xml
+
+          # Cleanup
+          kill $EXPO_PID 2>/dev/null || true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-results-ios
+          path: |
+            apps/mobile/e2e-results.xml
+            apps/mobile/e2e/screenshots/
+          retention-days: 14
+
+      - name: Upload Maestro screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-failure-screenshots-ios
+          path: ~/.maestro/tests/
+          retention-days: 7

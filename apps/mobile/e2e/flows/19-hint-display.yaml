@@ -1,0 +1,137 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "19 - Hint Display Verification"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# ========================================
+# Part 1: Direct hints in Solo mode
+# ========================================
+
+# Level 1 secret: yellow, blue, red, green (direct hints)
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Submit a partially correct guess: yellow, red, blue, green
+# yellow=correct, red=wrong_position, blue=wrong_position, green=correct
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 1: Direct hint dots rendered for row 0
+- assertVisible:
+    id: "direct-hint-0-0"
+- assertVisible:
+    id: "direct-hint-0-1"
+- assertVisible:
+    id: "direct-hint-0-2"
+- assertVisible:
+    id: "direct-hint-0-3"
+
+---
+
+# Test 2: Screenshot of direct hints
+- takeScreenshot: direct-hints-display
+
+---
+
+# Go back home
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    text: "Leave"
+    optional: true
+
+---
+
+# ========================================
+# Part 2: Indirect hints in Duo mode
+# ========================================
+
+# Navigate to Duo setter
+- tapOn:
+    id: "btn-duo"
+- assertVisible:
+    id: "duo-title"
+
+---
+
+# Select indirect hint mode
+- tapOn:
+    id: "hint-indirect"
+
+---
+
+# Set secret code: red, blue, green, yellow
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+
+---
+
+# Confirm
+- tapOn:
+    id: "btn-confirm"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Submit a guess: red, green, yellow, blue
+# 1 exact (red), 3 color-only
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 3: Indirect hints 2x2 grid rendered for row 0
+- assertVisible:
+    id: "indirect-hints-0"
+
+---
+
+# Test 4: Screenshot of indirect hints
+- takeScreenshot: indirect-hints-display
+
+---
+
+# Go back home
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    text: "Leave"
+    optional: true
+- assertVisible:
+    id: "home-title"

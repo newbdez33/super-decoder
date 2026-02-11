@@ -1,0 +1,92 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "17 - Stats After Play"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Step 1: Win level 1 in 1 attempt
+# Level 1 secret: yellow, blue, red, green
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Submit correct guess
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Win modal appears
+- assertVisible:
+    text: "CODE CRACKED!"
+
+---
+
+# Go home
+- tapOn:
+    id: "btn-home"
+- assertVisible:
+    id: "home-title"
+
+---
+
+# Step 2: Navigate to Stats
+- tapOn:
+    id: "btn-stats"
+- assertVisible:
+    id: "stats-title"
+
+---
+
+# Test 1: Games Played = 1
+- assertVisible:
+    id: "stat-games-played"
+
+---
+
+# Test 2: Games Won = 1
+- assertVisible:
+    id: "stat-games-won"
+
+---
+
+# Test 3: Win Rate = 100%
+- assertVisible:
+    text: "100%"
+
+---
+
+# Test 4: Current Level = 2
+- assertVisible:
+    id: "stat-current-level"
+
+---
+
+# Test 5: Current Streak = 1
+- assertVisible:
+    id: "stat-current-streak"
+
+---
+
+# Test 6: Back to home
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"

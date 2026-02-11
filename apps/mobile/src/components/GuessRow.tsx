@@ -14,6 +14,8 @@ interface GuessRowProps {
   selectedSlot: number;
   onSlotPress: (index: number) => void;
   colorBlindMode: boolean;
+  testID?: string;
+  rowIndex?: number;
 }
 
 export function GuessRow({
@@ -24,6 +26,8 @@ export function GuessRow({
   selectedSlot,
   onSlotPress,
   colorBlindMode,
+  testID,
+  rowIndex,
 }: GuessRowProps) {
   const theme = useTheme();
   const isCompleted = guess !== null;
@@ -37,6 +41,7 @@ export function GuessRow({
 
   return (
     <View
+      testID={testID}
       style={[
         styles.row,
         {
@@ -51,6 +56,7 @@ export function GuessRow({
         {colors.map((color, i) => (
           <ColorSlot
             key={i}
+            testID={rowIndex !== undefined ? `slot-${rowIndex}-${i}` : undefined}
             color={color}
             isSelected={isCurrent && i === selectedSlot}
             isDisabled={isCompleted || isDisabled}
@@ -62,10 +68,10 @@ export function GuessRow({
 
       <View style={styles.hints}>
         {isCompleted && guess.directHints && hintType === 'direct' && (
-          <DirectHints hints={guess.directHints} />
+          <DirectHints hints={guess.directHints} rowIndex={rowIndex} />
         )}
         {isCompleted && guess.indirectHint && hintType === 'indirect' && (
-          <IndirectHints hint={guess.indirectHint} />
+          <IndirectHints hint={guess.indirectHint} rowIndex={rowIndex} />
         )}
       </View>
     </View>

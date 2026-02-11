@@ -1,0 +1,40 @@
+# Maestro E2E Test Configuration for Super Decoder Mobile
+# https://maestro.mobile.dev/
+
+appId: host.exp.exponent
+name: Super Decoder E2E Tests
+
+# Tags for organizing test flows
+tags:
+  smoke: "Quick smoke tests for CI (PRs)"
+  full: "Full regression suite (push to develop/main)"
+  android: "Android-specific flows"
+  ios: "iOS-specific flows"
+
+# Default execution settings
+executionOrder:
+  continueOnFailure: true
+  flowsOrder:
+    # Core flows (P0 - smoke candidates)
+    - e2e/flows/01-home-screen.yaml
+    - e2e/flows/02-solo-win.yaml
+    - e2e/flows/03-solo-lose.yaml
+    - e2e/flows/04-duo-mode.yaml
+    - e2e/flows/05-free-play.yaml
+    - e2e/flows/06-settings.yaml
+    - e2e/flows/07-stats.yaml
+    - e2e/flows/08-theme-switching.yaml
+    - e2e/flows/09-colorblind-mode.yaml
+    - e2e/flows/10-navigation.yaml
+    - e2e/flows/11-game-alerts.yaml
+    - e2e/flows/12-reset-progress.yaml
+    - e2e/flows/13-edge-cases.yaml
+    # Extended coverage (P1)
+    - e2e/flows/14-solo-2star.yaml
+    - e2e/flows/15-solo-skip.yaml
+    - e2e/flows/16-duo-indirect.yaml
+    - e2e/flows/17-stats-after-play.yaml
+    - e2e/flows/18-all-colors.yaml
+    - e2e/flows/19-hint-display.yaml
+    - e2e/flows/20-settings-persistence.yaml
+    - e2e/flows/21-colorblind-all-symbols.yaml

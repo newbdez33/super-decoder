@@ -1,0 +1,134 @@
+appId: host.exp.exponent
+tags:
+  - smoke
+  - full
+name: "02 - Solo Mode Win"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Navigate Home -> Game screen
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 2: Game header shows level and mode
+- assertVisible:
+    id: "level-display"
+- assertVisible:
+    text: "LV.001"
+- assertVisible:
+    id: "mode-badge"
+- assertVisible:
+    text: "EASY"
+
+---
+
+# Test 3: Back button visible in game header
+- assertVisible:
+    id: "btn-back"
+
+---
+
+# Test 4: 7 guess rows visible with empty slots
+- assertVisible:
+    id: "row-0"
+- assertVisible:
+    id: "row-1"
+- assertVisible:
+    id: "row-2"
+- assertVisible:
+    id: "row-3"
+- assertVisible:
+    id: "row-4"
+- assertVisible:
+    id: "row-5"
+- assertVisible:
+    id: "row-6"
+
+---
+
+# Test 5: Color picker shows 4 colors for level 1
+- assertVisible:
+    id: "color-red"
+- assertVisible:
+    id: "color-blue"
+- assertVisible:
+    id: "color-green"
+- assertVisible:
+    id: "color-yellow"
+
+---
+
+# Test 6: Submit and Clear buttons visible
+- assertVisible:
+    id: "btn-clear"
+- assertVisible:
+    id: "btn-submit"
+
+---
+
+# Test 7: Select colors to fill all 4 slots
+# Level 1 secret code: yellow, blue, red, green
+# Enter the correct code to win in 1 guess
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-green"
+
+---
+
+# Test 8: Submit the correct guess
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 9: Win modal appears
+- assertVisible:
+    id: "result-modal"
+- assertVisible:
+    id: "result-title"
+- assertVisible:
+    text: "CODE CRACKED!"
+
+---
+
+# Test 10: Star rating shows 3 stars (solved in 1 attempt)
+- assertVisible:
+    text: "Solved in 1 / 7 steps"
+
+---
+
+# Test 11: Modal buttons visible
+- assertVisible:
+    id: "btn-next"
+- assertVisible:
+    text: "Next Level"
+- assertVisible:
+    id: "btn-home"
+- assertVisible:
+    text: "Home"
+- assertVisible:
+    id: "btn-replay"
+- assertVisible:
+    text: "Replay"
+
+---
+
+# Test 12: Next Level advances to level 2
+- tapOn:
+    id: "btn-next"
+- assertVisible:
+    text: "LV.002"

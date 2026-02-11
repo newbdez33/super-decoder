@@ -4,9 +4,10 @@ import { useTheme } from '../themes/useTheme';
 
 interface DirectHintsProps {
   hints: DirectHint[];
+  rowIndex?: number;
 }
 
-export function DirectHints({ hints }: DirectHintsProps) {
+export function DirectHints({ hints, rowIndex }: DirectHintsProps) {
   const theme = useTheme();
 
   const statusColors: Record<string, string> = {
@@ -20,6 +21,7 @@ export function DirectHints({ hints }: DirectHintsProps) {
       {hints.map((hint, i) => (
         <View
           key={i}
+          testID={rowIndex !== undefined ? `direct-hint-${rowIndex}-${i}` : undefined}
           accessibilityLabel={
             hint.status === 'correct' ? 'correct' :
             hint.status === 'wrong_position' ? 'wrong position' : 'not exist'

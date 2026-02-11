@@ -1,0 +1,99 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "18 - All 8 Colors"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Navigate to Duo setter screen (allows selecting 8 colors)
+- tapOn:
+    id: "btn-duo"
+- assertVisible:
+    id: "duo-title"
+
+---
+
+# Test 1: Select 8 colors
+- tapOn:
+    id: "color-count-8"
+
+---
+
+# Test 2: Verify all 8 color buttons visible in the picker
+- assertVisible:
+    id: "color-red"
+- assertVisible:
+    id: "color-blue"
+- assertVisible:
+    id: "color-green"
+- assertVisible:
+    id: "color-yellow"
+- assertVisible:
+    id: "color-orange"
+- assertVisible:
+    id: "color-purple"
+- assertVisible:
+    id: "color-white"
+- assertVisible:
+    id: "color-pink"
+
+---
+
+# Test 3: Screenshot showing all 8 colors
+- takeScreenshot: all-8-colors
+
+---
+
+# Test 4: Select 4 colors to confirm they work (use less common ones)
+- tapOn:
+    id: "color-orange"
+- tapOn:
+    id: "color-purple"
+- tapOn:
+    id: "color-white"
+- tapOn:
+    id: "color-pink"
+
+---
+
+# Test 5: Confirm and enter game
+- tapOn:
+    id: "btn-confirm"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 6: Verify all 8 colors visible in game color picker
+- assertVisible:
+    id: "color-red"
+- assertVisible:
+    id: "color-blue"
+- assertVisible:
+    id: "color-green"
+- assertVisible:
+    id: "color-yellow"
+- assertVisible:
+    id: "color-orange"
+- assertVisible:
+    id: "color-purple"
+- assertVisible:
+    id: "color-white"
+- assertVisible:
+    id: "color-pink"
+
+---
+
+# Test 7: Go back home
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    text: "Leave"
+    optional: true
+- assertVisible:
+    id: "home-title"

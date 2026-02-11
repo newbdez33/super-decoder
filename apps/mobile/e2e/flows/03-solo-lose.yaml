@@ -1,0 +1,159 @@
+appId: host.exp.exponent
+tags:
+  - smoke
+  - full
+name: "03 - Solo Mode Lose"
+
+---
+
+# Launch app with fresh state so we're on level 1
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Navigate to solo game
+# Level 1 secret is yellow, blue, red, green
+# We guess red, blue, green, yellow (wrong order) 7 times to lose
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 1: Submit 7 wrong guesses to exhaust attempts
+# Guess 1: red, blue, green, yellow (wrong order)
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 2
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 3
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 4
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 5
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 6
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Guess 7 (final)
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 2: Lose modal appears with "CODE INTACT"
+- assertVisible:
+    id: "result-modal"
+- assertVisible:
+    id: "result-title"
+- assertVisible:
+    text: "CODE INTACT"
+
+---
+
+# Test 3: Retry button visible
+- assertVisible:
+    id: "btn-retry"
+- assertVisible:
+    text: "Retry"
+
+---
+
+# Test 4: Skip button visible
+- assertVisible:
+    id: "btn-skip"
+- assertVisible:
+    text: "Skip"
+
+---
+
+# Test 5: Retry reloads same level
+- tapOn:
+    id: "btn-retry"
+- assertVisible:
+    text: "LV.001"
+
+---
+
+# Test 6: Go back to home
+- tapOn:
+    id: "btn-back"

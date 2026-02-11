@@ -4,9 +4,10 @@ import { useTheme } from '../themes/useTheme';
 
 interface IndirectHintsProps {
   hint: IndirectHint;
+  rowIndex?: number;
 }
 
-export function IndirectHints({ hint }: IndirectHintsProps) {
+export function IndirectHints({ hint, rowIndex }: IndirectHintsProps) {
   const theme = useTheme();
   const { correctPosition, correctColor } = hint;
   const empty = 4 - correctPosition - correctColor;
@@ -18,7 +19,11 @@ export function IndirectHints({ hint }: IndirectHintsProps) {
   ];
 
   return (
-    <View style={styles.grid}>
+    <View
+      testID={rowIndex !== undefined ? `indirect-hints-${rowIndex}` : undefined}
+      accessibilityLabel={`${correctPosition} exact, ${correctColor} color`}
+      style={styles.grid}
+    >
       {dots.map((dot, i) => (
         <View
           key={i}

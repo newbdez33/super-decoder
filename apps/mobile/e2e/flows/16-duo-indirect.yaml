@@ -1,0 +1,90 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "16 - Duo Mode Indirect Hints"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Test 1: Navigate to Duo setter screen
+- tapOn:
+    id: "btn-duo"
+- assertVisible:
+    id: "duo-title"
+- assertVisible:
+    text: "CODE SETTER"
+
+---
+
+# Test 2: Select Indirect hint mode
+- tapOn:
+    id: "hint-indirect"
+
+---
+
+# Test 3: Set secret code: red, blue, green, yellow
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+
+---
+
+# Test 4: Confirm and enter game
+- tapOn:
+    id: "btn-confirm"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 5: Submit partially correct guess (blue, red, yellow, green)
+# This has 0 exact matches, 4 color-only matches
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 6: Verify indirect hints are rendered (2x2 grid)
+- assertVisible:
+    id: "indirect-hints-0"
+
+---
+
+# Test 7: Submit correct guess (red, blue, green, yellow)
+- tapOn:
+    id: "color-red"
+- tapOn:
+    id: "color-blue"
+- tapOn:
+    id: "color-green"
+- tapOn:
+    id: "color-yellow"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 8: Win modal appears
+- assertVisible:
+    text: "CODE CRACKED!"
+- tapOn:
+    id: "btn-home"
+- assertVisible:
+    id: "home-title"

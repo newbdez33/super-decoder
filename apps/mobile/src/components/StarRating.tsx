@@ -10,10 +10,11 @@ export function StarRating({ stars, maxStars = 3 }: StarRatingProps) {
   const theme = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View testID="star-rating" style={styles.container}>
       {Array.from({ length: maxStars }, (_, i) => (
         <Text
           key={i}
+          testID={`star-${i + 1}`}
           accessibilityLabel={i < stars ? 'earned star' : 'empty star'}
           style={[
             styles.star,

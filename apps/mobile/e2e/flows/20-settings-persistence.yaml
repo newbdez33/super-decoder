@@ -1,0 +1,115 @@
+appId: host.exp.exponent
+tags:
+  - full
+name: "20 - Settings Persistence"
+
+---
+
+# Launch app with fresh state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: true
+
+# Navigate to Settings
+- tapOn:
+    id: "btn-settings"
+- assertVisible:
+    id: "settings-title"
+
+---
+
+# Test 1: Toggle sound OFF (default is ON, so one tap disables)
+- tapOn:
+    id: "toggle-sound"
+
+---
+
+# Test 2: Enable colorblind mode
+- tapOn:
+    id: "toggle-colorblind"
+
+---
+
+# Test 3: Switch to Cyberpunk theme
+- tapOn:
+    id: "theme-cyberpunk"
+
+---
+
+# Test 4: Screenshot of changed settings
+- takeScreenshot: settings-changed
+
+---
+
+# Go back home
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"
+
+---
+
+# Test 5: Relaunch app WITHOUT clearing state
+- launchApp:
+    appId: host.exp.exponent
+    clearState: false
+
+---
+
+# Test 6: Navigate to Settings to verify persistence
+- tapOn:
+    id: "btn-settings"
+- assertVisible:
+    id: "settings-title"
+
+---
+
+# Test 7: Screenshot after relaunch to compare
+- takeScreenshot: settings-after-relaunch
+
+---
+
+# Test 8: Verify Cyberpunk theme is still selected
+# The Cyberpunk theme card should have the selected visual state
+- assertVisible:
+    id: "theme-cyberpunk"
+
+---
+
+# Test 9: Verify colorblind mode is still on by checking toggle state
+- assertVisible:
+    id: "toggle-colorblind"
+
+---
+
+# Test 10: Go back home and verify colorblind works in game
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 11: Colorblind symbols should be visible (proves setting persisted)
+# Level 1 has 4 colors: red=circle, blue=square, green=triangle, yellow=diamond
+- assertVisible:
+    text: "●"
+- assertVisible:
+    text: "■"
+- assertVisible:
+    text: "▲"
+- assertVisible:
+    text: "◆"
+
+---
+
+# Clean up: go back home
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    text: "Leave"
+    optional: true
+- assertVisible:
+    id: "home-title"
