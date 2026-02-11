@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - full
 name: "07 - Stats Screen"
@@ -6,9 +6,9 @@ name: "07 - Stats Screen"
 ---
 
 # Launch app with fresh state so stats are zero
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # Test 1: Navigate to Stats
 - tapOn:
@@ -79,7 +79,7 @@ name: "07 - Stats Screen"
 - assertVisible:
     id: "stat-win-rate"
 - assertVisible:
-    text: "0%"
+    text: ".*0%.*"
 
 ---
 

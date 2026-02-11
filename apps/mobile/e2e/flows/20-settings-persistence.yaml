@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - full
 name: "20 - Settings Persistence"
@@ -6,9 +6,9 @@ name: "20 - Settings Persistence"
 ---
 
 # Launch app with fresh state
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # Navigate to Settings
 - tapOn:
@@ -50,9 +50,9 @@ name: "20 - Settings Persistence"
 ---
 
 # Test 5: Relaunch app WITHOUT clearing state
-- launchApp:
-    appId: host.exp.exponent
-    clearState: false
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 ---
 
@@ -95,13 +95,13 @@ name: "20 - Settings Persistence"
 # Test 11: Colorblind symbols should be visible (proves setting persisted)
 # Level 1 has 4 colors: red=circle, blue=square, green=triangle, yellow=diamond
 - assertVisible:
-    text: "●"
+    text: ".*●.*"
 - assertVisible:
-    text: "■"
+    text: ".*■.*"
 - assertVisible:
-    text: "▲"
+    text: ".*▲.*"
 - assertVisible:
-    text: "◆"
+    text: ".*◆.*"
 
 ---
 

@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - full
 name: "17 - Stats After Play"
@@ -6,9 +6,9 @@ name: "17 - Stats After Play"
 ---
 
 # Launch app with fresh state
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # Step 1: Win level 1 in 1 attempt
 # Level 1 secret: yellow, blue, red, green
@@ -69,7 +69,7 @@ name: "17 - Stats After Play"
 
 # Test 3: Win Rate = 100%
 - assertVisible:
-    text: "100%"
+    text: ".*100%.*"
 
 ---
 

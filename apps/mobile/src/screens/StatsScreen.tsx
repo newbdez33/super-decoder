@@ -21,6 +21,7 @@ export function StatsScreen() {
         </Pressable>
         <Text
           testID="stats-title"
+          accessibilityLabel="STATISTICS"
           style={[
             styles.title,
             {
@@ -61,8 +62,9 @@ function StatCard({ testID, label, value, theme, accent }: {
   accent?: boolean;
 }) {
   return (
-    <View testID={testID} style={[styles.card, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}>
+    <View testID={testID} accessibilityLabel={`${label}: ${value}`} style={[styles.card, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}>
       <Text
+        accessibilityLabel={String(value)}
         style={[
           styles.cardValue,
           {
@@ -77,7 +79,7 @@ function StatCard({ testID, label, value, theme, accent }: {
       >
         {value}
       </Text>
-      <Text style={[styles.cardLabel, { color: theme['--text-secondary'] }]}>
+      <Text accessibilityLabel={label} style={[styles.cardLabel, { color: theme['--text-secondary'] }]}>
         {label}
       </Text>
     </View>

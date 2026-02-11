@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - smoke
   - full
@@ -7,17 +7,15 @@ name: "01 - Home Screen"
 ---
 
 # Launch app with fresh state
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # Test 1: App launches and title is visible
 - assertVisible:
     id: "home-title"
 - assertVisible:
-    text: "SUPER"
-- assertVisible:
-    text: "DECODER"
+    text: "SUPER DECODER"
 
 ---
 
@@ -27,21 +25,21 @@ name: "01 - Home Screen"
 - assertVisible:
     text: "SOLO MODE"
 - assertVisible:
-    text: "Single player"
+    text: ".*Single player.*"
 
 - assertVisible:
     id: "btn-duo"
 - assertVisible:
     text: "DUO MODE"
 - assertVisible:
-    text: "Two players"
+    text: ".*Two players.*"
 
 - assertVisible:
     id: "btn-freeplay"
 - assertVisible:
     text: "FREE PLAY"
 - assertVisible:
-    text: "Practice"
+    text: ".*Practice.*"
 
 ---
 

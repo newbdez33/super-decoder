@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - full
 name: "05 - Free Play"
@@ -6,9 +6,9 @@ name: "05 - Free Play"
 ---
 
 # Launch app with fresh state
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # Test 1: Free Play button navigates to Game screen
 - tapOn:

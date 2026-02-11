@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - full
 name: "15 - Solo Mode Skip"
@@ -8,9 +8,9 @@ name: "15 - Solo Mode Skip"
 # Launch app with fresh state so we're on level 1
 # Level 1 secret: yellow, blue, red, green
 # Submit 7 wrong guesses to trigger lose, then skip
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # Navigate to solo game
 - tapOn:

@@ -37,6 +37,7 @@ export function SettingsScreen() {
         </Pressable>
         <Text
           testID="settings-title"
+          accessibilityLabel="SETTINGS"
           style={[
             styles.title,
             {
@@ -67,6 +68,7 @@ export function SettingsScreen() {
             <Pressable
               key={t.id}
               testID={`theme-${t.id}`}
+              accessibilityLabel={t.name}
               onPress={() => settings.setTheme(t.id)}
               style={[
                 styles.themeCard,
@@ -104,6 +106,7 @@ export function SettingsScreen() {
               <Pressable
                 key={lang.value}
                 testID={`lang-${lang.value}`}
+                accessibilityLabel={lang.label}
                 onPress={() => settings.setLanguage(lang.value)}
                 style={[
                   styles.langBtn,
@@ -123,6 +126,7 @@ export function SettingsScreen() {
 
         <Pressable
           testID="btn-reset-progress"
+          accessibilityLabel="Reset All Progress"
           onPress={handleReset}
           style={[styles.resetBtn, { borderColor: theme['--failure'] }]}
         >
@@ -135,7 +139,7 @@ export function SettingsScreen() {
 
 function SettingRow({ label, theme, children }: { label: string; theme: Record<string, string>; children: React.ReactNode }) {
   return (
-    <View style={settingStyles.row}>
+    <View accessibilityLabel={label} style={settingStyles.row}>
       <Text style={[settingStyles.label, { color: theme['--text-primary'] }]}>{label}</Text>
       {children}
     </View>
@@ -145,7 +149,7 @@ function SettingRow({ label, theme, children }: { label: string; theme: Record<s
 function Divider({ label, theme }: { label: string; theme: Record<string, string> }) {
   return (
     <View style={[settingStyles.divider, { borderTopColor: theme['--border-subtle'] }]}>
-      <Text style={[settingStyles.dividerText, { color: theme['--text-secondary'] }]}>{label}</Text>
+      <Text accessibilityLabel={label} style={[settingStyles.dividerText, { color: theme['--text-secondary'] }]}>{label}</Text>
     </View>
   );
 }

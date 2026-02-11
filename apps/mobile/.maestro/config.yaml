@@ -1,7 +1,7 @@
 # Maestro E2E Test Configuration for Super Decoder Mobile
 # https://maestro.mobile.dev/
 
-appId: host.exp.exponent
+appId: host.exp.Exponent
 name: Super Decoder E2E Tests
 
 # Tags for organizing test flows

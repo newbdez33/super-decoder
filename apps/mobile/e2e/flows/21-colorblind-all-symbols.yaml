@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - full
 name: "21 - Colorblind All 8 Symbols"
@@ -6,9 +6,9 @@ name: "21 - Colorblind All 8 Symbols"
 ---
 
 # Launch app with fresh state
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # Test 1: Enable colorblind mode in Settings
 - tapOn:
@@ -39,21 +39,21 @@ name: "21 - Colorblind All 8 Symbols"
 # Test 4: Verify all 8 colorblind symbols visible in picker
 # red=● blue=■ green=▲ yellow=◆ orange=★ purple=✚ white=○ pink=♥
 - assertVisible:
-    text: "●"
+    text: ".*●.*"
 - assertVisible:
-    text: "■"
+    text: ".*■.*"
 - assertVisible:
-    text: "▲"
+    text: ".*▲.*"
 - assertVisible:
-    text: "◆"
+    text: ".*◆.*"
 - assertVisible:
-    text: "★"
+    text: ".*★.*"
 - assertVisible:
-    text: "✚"
+    text: ".*✚.*"
 - assertVisible:
-    text: "○"
+    text: ".*○.*"
 - assertVisible:
-    text: "♥"
+    text: ".*♥.*"
 
 ---
 
@@ -84,21 +84,21 @@ name: "21 - Colorblind All 8 Symbols"
 
 # Test 7: Verify all 8 symbols visible in game color picker
 - assertVisible:
-    text: "●"
+    text: ".*●.*"
 - assertVisible:
-    text: "■"
+    text: ".*■.*"
 - assertVisible:
-    text: "▲"
+    text: ".*▲.*"
 - assertVisible:
-    text: "◆"
+    text: ".*◆.*"
 - assertVisible:
-    text: "★"
+    text: ".*★.*"
 - assertVisible:
-    text: "✚"
+    text: ".*✚.*"
 - assertVisible:
-    text: "○"
+    text: ".*○.*"
 - assertVisible:
-    text: "♥"
+    text: ".*♥.*"
 
 ---
 

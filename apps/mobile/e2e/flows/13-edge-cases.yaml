@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - full
 name: "13 - Edge Cases"
@@ -6,9 +6,9 @@ name: "13 - Edge Cases"
 ---
 
 # Launch app with fresh state
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # Test 1: Submit button disabled with incomplete guess (less than 4 colors)
 - tapOn:

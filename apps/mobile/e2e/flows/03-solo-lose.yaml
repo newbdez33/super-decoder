@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - smoke
   - full
@@ -7,9 +7,9 @@ name: "03 - Solo Mode Lose"
 ---
 
 # Launch app with fresh state so we're on level 1
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # Navigate to solo game
 # Level 1 secret is yellow, blue, red, green

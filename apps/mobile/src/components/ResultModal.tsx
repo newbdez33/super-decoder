@@ -36,6 +36,7 @@ export function ResultModal({
           <ScrollView contentContainerStyle={styles.content}>
             <Text
               testID="result-title"
+              accessibilityLabel={isWon ? 'CODE CRACKED!' : 'CODE INTACT'}
               style={[
                 styles.title,
                 {
@@ -64,7 +65,7 @@ export function ResultModal({
 
             {isWon && (
               <>
-                <Text style={[styles.subtitle, { color: theme['--text-secondary'] }]}>
+                <Text accessibilityLabel={`Solved in ${attempts} / 7 steps`} style={[styles.subtitle, { color: theme['--text-secondary'] }]}>
                   Solved in {attempts} / 7 steps
                 </Text>
                 <StarRating stars={stars} />
@@ -76,6 +77,7 @@ export function ResultModal({
                 <>
                   <Pressable
                     testID="btn-next"
+                    accessibilityLabel="Next Level"
                     onPress={onNext}
                     style={[styles.primaryBtn, { backgroundColor: theme['--text-accent'] }]}
                   >
@@ -86,6 +88,7 @@ export function ResultModal({
                   <View style={styles.buttonRow}>
                     <Pressable
                       testID="btn-home"
+                      accessibilityLabel="Home"
                       onPress={onHome}
                       style={[styles.secondaryBtn, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}
                     >
@@ -95,6 +98,7 @@ export function ResultModal({
                     </Pressable>
                     <Pressable
                       testID="btn-replay"
+                      accessibilityLabel="Replay"
                       onPress={onRetry}
                       style={[styles.secondaryBtn, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}
                     >
@@ -108,6 +112,7 @@ export function ResultModal({
                 <>
                   <Pressable
                     testID="btn-retry"
+                    accessibilityLabel="Retry"
                     onPress={onRetry}
                     style={[styles.primaryBtn, { backgroundColor: theme['--text-accent'] }]}
                   >
@@ -118,6 +123,7 @@ export function ResultModal({
                   {onSkip && (
                     <Pressable
                       testID="btn-skip"
+                      accessibilityLabel="Skip"
                       onPress={onSkip}
                       style={[styles.secondaryBtn, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}
                     >

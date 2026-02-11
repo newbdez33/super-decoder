@@ -28,6 +28,7 @@ export function GameHeader({ levelId, currentRound, mode, onBack }: GameHeaderPr
       <View style={styles.center}>
         <Text
           testID="level-display"
+          accessibilityLabel={`LV.${formattedLevel}`}
           style={[
             styles.level,
             { color: theme['--text-accent'] },
@@ -50,6 +51,7 @@ export function GameHeader({ levelId, currentRound, mode, onBack }: GameHeaderPr
 
       <Text
         testID="mode-badge"
+        accessibilityLabel={mode.toUpperCase()}
         style={[
           styles.mode,
           { color: mode === 'easy' ? theme['--hint-correct'] : '#FF9F0A' },

@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - full
 name: "19 - Hint Display Verification"
@@ -6,9 +6,9 @@ name: "19 - Hint Display Verification"
 ---
 
 # Launch app with fresh state
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # ========================================
 # Part 1: Direct hints in Solo mode

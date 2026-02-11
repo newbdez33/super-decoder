@@ -56,6 +56,7 @@ export function DuoSetterScreen() {
 
       <Text
         testID="duo-title"
+        accessibilityLabel="CODE SETTER"
         style={[
           styles.title,
           {
@@ -68,7 +69,7 @@ export function DuoSetterScreen() {
       >
         CODE SETTER
       </Text>
-      <Text style={[styles.subtitle, { color: theme['--text-secondary'] }]}>Set your secret code:</Text>
+      <Text accessibilityLabel="Set your secret code:" style={[styles.subtitle, { color: theme['--text-secondary'] }]}>Set your secret code:</Text>
 
       <View style={styles.codeRow}>
         {code.map((color, i) => (
@@ -98,6 +99,7 @@ export function DuoSetterScreen() {
           <Pressable
             key={n}
             testID={`color-count-${n}`}
+            accessibilityLabel={String(n)}
             onPress={() => {
               setNumColors(n);
               setCode([null, null, null, null]);
@@ -122,6 +124,7 @@ export function DuoSetterScreen() {
           <Pressable
             key={type}
             testID={`hint-${type}`}
+            accessibilityLabel={type}
             onPress={() => setHintType(type)}
             style={[
               styles.optionBtn,
@@ -141,6 +144,7 @@ export function DuoSetterScreen() {
 
       <Pressable
         testID="btn-confirm"
+        accessibilityLabel="Confirm & Pass to Opponent"
         onPress={handleConfirm}
         style={[
           styles.confirmBtn,

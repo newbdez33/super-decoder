@@ -1,4 +1,4 @@
-appId: host.exp.exponent
+appId: host.exp.Exponent
 tags:
   - full
 name: "14 - Solo Mode 2-Star Win"
@@ -7,9 +7,9 @@ name: "14 - Solo Mode 2-Star Win"
 
 # Launch app with fresh state so we're on level 1
 # Level 1 secret: yellow, blue, red, green (4 colors available)
-- launchApp:
-    appId: host.exp.exponent
-    clearState: true
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
 
 # Navigate to solo game
 - tapOn:

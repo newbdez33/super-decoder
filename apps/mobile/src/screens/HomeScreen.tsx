@@ -42,6 +42,7 @@ export function HomeScreen() {
       <View style={styles.titleBlock}>
         {/* Outer glow layer */}
         <Text
+          accessible={false}
           style={[
             styles.title,
             styles.titleGlow,
@@ -56,6 +57,7 @@ export function HomeScreen() {
         </Text>
         {/* Mid glow layer */}
         <Text
+          accessible={false}
           style={[
             styles.title,
             styles.titleGlow,
@@ -71,6 +73,7 @@ export function HomeScreen() {
         {/* Visible text */}
         <Text
           testID="home-title"
+          accessibilityLabel="SUPER DECODER"
           style={[
             styles.title,
             {
@@ -119,6 +122,7 @@ export function HomeScreen() {
         <View style={styles.smallRow}>
           <Pressable
             testID="btn-stats"
+            accessibilityLabel="Stats"
             onPress={() => router.push('/stats')}
             style={[styles.smallBtn, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}
           >
@@ -126,6 +130,7 @@ export function HomeScreen() {
           </Pressable>
           <Pressable
             testID="btn-settings"
+            accessibilityLabel="Settings"
             onPress={() => router.push('/settings')}
             style={[styles.smallBtn, { backgroundColor: theme['--bg-card'], borderColor: theme['--border-subtle'] }]}
           >
@@ -151,6 +156,7 @@ function MenuButton({ testID, label, sublabel, icon, primary, theme, onPress }: 
   return (
     <Pressable
       testID={testID}
+      accessibilityLabel={`${label}, ${sublabel}`}
       onPress={onPress}
       style={[
         styles.menuBtn,
