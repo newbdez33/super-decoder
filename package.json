@@ -15,5 +15,8 @@
   },
   "overrides": {
     "react-native": "0.76.9"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }
