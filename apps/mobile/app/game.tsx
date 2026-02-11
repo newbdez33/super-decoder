@@ -7,7 +7,7 @@ export default function Game() {
   const theme = useTheme();
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme['--bg-deepest'] }]}>
+    <SafeAreaView edges={['top']} style={[styles.container, { backgroundColor: theme['--bg-deepest'] }]}>
       <GameScreen />
     </SafeAreaView>
   );

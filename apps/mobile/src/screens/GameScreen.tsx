@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { View, ScrollView, Alert, StyleSheet } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGameStore } from '@super-decoder/shared';
 import { useProgressStore } from '../stores/progressStore';
 import { useSettingsStore } from '../stores/settingsStore';
@@ -14,6 +15,7 @@ import { useTheme } from '../themes/useTheme';
 export function GameScreen() {
   const theme = useTheme();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { mode } = useLocalSearchParams<{ mode?: string }>();
   const store = useGameStore();
   const colorBlindMode = useSettingsStore(s => s.colorBlindMode);
@@ -82,7 +84,7 @@ export function GameScreen() {
         <GameBoard colorBlindMode={colorBlindMode} />
       </ScrollView>
 
-      <View style={[styles.bottom, { backgroundColor: theme['--bg-panel'] }]}>
+      <View style={[styles.bottom, { backgroundColor: theme['--bg-panel'], paddingBottom: 12 + insets.bottom }]}>
         <ColorPicker
           availableColors={store.availableColors}
           usedColors={store.usedColors}

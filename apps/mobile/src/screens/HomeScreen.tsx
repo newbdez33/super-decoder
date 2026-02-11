@@ -1,10 +1,14 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
+import type { ReactNode } from 'react';
 import { useRouter } from 'expo-router';
 import { useGameStore, COLOR_NAMES, SeededRandom } from '@super-decoder/shared';
 import type { Color } from '@super-decoder/shared';
 import { useProgressStore } from '../stores/progressStore';
 import { ProgressBar } from '../components/ProgressBar';
 import { useTheme } from '../themes/useTheme';
+import { SoloIcon } from '../components/icons/SoloIcon';
+import { DuoIcon } from '../components/icons/DuoIcon';
+import { DiceIcon } from '../components/icons/DiceIcon';
 
 export function HomeScreen() {
   const theme = useTheme();
@@ -90,7 +94,7 @@ export function HomeScreen() {
           testID="btn-solo"
           label="SOLO MODE"
           sublabel="Single player"
-          icon={'\u25B6'}
+          icon={<SoloIcon size={28} color={theme['--text-accent']} />}
           primary
           theme={theme}
           onPress={handleSolo}
@@ -99,7 +103,7 @@ export function HomeScreen() {
           testID="btn-duo"
           label="DUO MODE"
           sublabel="Two players"
-          icon={'\u{1F465}'}
+          icon={<DuoIcon size={28} color={theme['--text-secondary']} />}
           theme={theme}
           onPress={handleDuo}
         />
@@ -107,7 +111,7 @@ export function HomeScreen() {
           testID="btn-freeplay"
           label="FREE PLAY"
           sublabel="Practice"
-          icon={'\u{1F3B2}'}
+          icon={<DiceIcon size={28} color={theme['--text-secondary']} />}
           theme={theme}
           onPress={handleFreePlay}
         />
@@ -137,7 +141,7 @@ function MenuButton({ testID, label, sublabel, icon, primary, theme, onPress }: 
   testID: string;
   label: string;
   sublabel: string;
-  icon: string;
+  icon: ReactNode;
   primary?: boolean;
   theme: Record<string, string>;
   onPress: () => void;
@@ -157,7 +161,7 @@ function MenuButton({ testID, label, sublabel, icon, primary, theme, onPress }: 
       ]}
     >
       <View style={[styles.indicator, { backgroundColor: primary ? theme['--text-accent'] : theme['--border-subtle'] }]} />
-      <Text style={styles.menuIcon}>{icon}</Text>
+      <View style={styles.menuIcon}>{icon}</View>
       <View>
         <Text style={[styles.menuLabel, { color: theme['--text-primary'] }]}>{label}</Text>
         <Text style={[styles.menuSublabel, { color: theme['--text-secondary'] }]}>{sublabel}</Text>
@@ -222,8 +226,11 @@ const styles = StyleSheet.create({
     width: 3,
   },
   menuIcon: {
-    fontSize: 20,
     marginLeft: 8,
+    width: 28,
+    height: 28,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
   },
   menuLabel: {
     fontFamily: 'Exo2-Bold',

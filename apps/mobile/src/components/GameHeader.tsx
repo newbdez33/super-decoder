@@ -30,12 +30,7 @@ export function GameHeader({ levelId, currentRound, mode, onBack }: GameHeaderPr
           testID="level-display"
           style={[
             styles.level,
-            {
-              color: theme['--text-accent'],
-              textShadowColor: theme['--text-accent'],
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-            },
+            { color: theme['--text-accent'] },
           ]}
         >
           LV.{formattedLevel}

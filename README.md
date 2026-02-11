@@ -1,6 +1,6 @@
 # Super Decoder
 
-A Mastermind-based code-breaking puzzle PWA with 600 levels, multiple game modes, and a retro-futuristic LED UI.
+A Mastermind-based code-breaking puzzle game with 600 levels, multiple game modes, and a retro-futuristic LED UI. Available as a **PWA** (web) and **native iOS/Android app** (React Native).
 
 ## Features
 
@@ -10,53 +10,84 @@ A Mastermind-based code-breaking puzzle PWA with 600 levels, multiple game modes
 - **Seeded RNG** — Same level ID produces the same secret code on every device
 - **Star Rating** — 1-3 steps = 3 stars, 4-5 = 2 stars, 6-7 = 1 star
 - **Color Blind Mode** — Symbol overlays on game pieces
-- **Mobile-First** — Touch targets 44px+, max 480px game width, safe area insets
+- **Cross-Platform** — PWA for web/desktop, Expo app for iOS/Android
+
+## Monorepo Structure
+
+```
+super-decoder/
+├── packages/shared/       @super-decoder/shared — game logic, types, themes, stores
+├── apps/web/              @super-decoder/web — React 19 PWA (Vite + Tailwind + Framer Motion)
+└── apps/mobile/           @super-decoder/mobile — React Native app (Expo SDK 52 + Expo Router)
+```
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | React 19 + TypeScript (strict) + Vite 7 |
-| Styling | Tailwind CSS 4 + CSS Variables |
-| Animation | Framer Motion |
-| State | Zustand 5 (with persist middleware) |
-| Audio | Howler.js |
-| Testing | Vitest + React Testing Library + Playwright |
+| Layer | Web (PWA) | Mobile (iOS/Android) | Shared |
+|-------|-----------|---------------------|--------|
+| Framework | React 19 + Vite 7 | Expo SDK 52 + React Native | TypeScript (strict) |
+| Styling | Tailwind CSS 4 + CSS Variables | StyleSheet + theme hook | — |
+| Animation | Framer Motion | React Native Reanimated | — |
+| State | Zustand 5 (localStorage) | Zustand 5 (AsyncStorage) | Store factories |
+| Navigation | useState-based | Expo Router | — |
+| Testing | Vitest + RTL + Playwright | — | Vitest |
 
 ## Getting Started
 
 ```bash
 npm install
-npm run dev
 ```
 
-Open http://localhost:5173 in your browser.
+### Web (PWA)
+
+```bash
+npm run dev              # Start dev server (http://localhost:5173)
+npm run build            # Type-check + production build
+npm test                 # Run shared + web tests
+npm run test:e2e         # Playwright E2E tests
+```
+
+### Mobile (iOS/Android)
+
+```bash
+cd apps/mobile
+npx expo start           # Start Expo dev server
+npx expo start --ios     # Open in iOS Simulator
+npx expo start --android # Open in Android Emulator
+```
 
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start dev server |
-| `npm run build` | Type-check + production build |
-| `npm test` | Run all unit/component tests (Vitest) |
-| `npm run test:watch` | Vitest in watch mode |
-| `npm run test:coverage` | Vitest with coverage report |
+| `npm run dev` | Start web dev server |
+| `npm run build` | Type-check + production build (web) |
+| `npm test` | Run all unit/component tests (shared + web) |
 | `npm run test:e2e` | Playwright E2E tests (iPhone 14, Pixel 7, iPad Mini) |
-| `npm run lint` | ESLint |
+| `npm run lint` | ESLint (web) |
 
 ## Project Structure
 
 ```
-src/
+packages/shared/src/
   logic/        Pure functions: seededRandom, hintEngine, levelGenerator, constants
-  stores/       Zustand stores: gameStore, progressStore, settingsStore
-  components/   UI: ColorSlot, ColorPicker, Hints, GuessRow, GameBoard, ResultModal
-  screens/      Pages: HomeScreen, GameScreen, DuoSetterScreen, SettingsScreen, StatsScreen
-  themes/       Theme definitions + CSS variable injection
-  types/        TypeScript type definitions
-  hooks/        Custom hooks: useSound, useVibrate
-  utils/        Sound management utilities
-e2e/            Playwright E2E tests
+  stores/       gameStore + factory functions (createProgressStore, createSettingsStore)
+  themes/       Theme definitions (pure data)
+  types/        TypeScript type definitions (game.ts, theme.ts)
+
+apps/web/src/
+  components/   12 React components (HTML + CSS variables)
+  screens/      5 screens (Framer Motion animations)
+  stores/       Store wrappers (localStorage persistence)
+  themes/       applyTheme.ts (CSS variable injection)
+
+apps/mobile/src/
+  components/   12 React Native components (View, Pressable, StyleSheet)
+  screens/      5 screens (native navigation)
+  stores/       Store wrappers (AsyncStorage persistence)
+  themes/       useTheme.ts hook (reads theme variables directly)
+
+apps/web/e2e/   Playwright E2E tests
 docs/           Spec documents and UI mockups
 ```
 
