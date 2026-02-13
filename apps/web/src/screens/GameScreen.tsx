@@ -3,6 +3,7 @@ import { useGameStore } from '@super-decoder/shared';
 import { useProgressStore } from '../stores/progressStore';
 import { useSettingsStore } from '../stores/settingsStore';
 import { useSound } from '../hooks/useSound';
+import { useVibrate } from '../hooks/useVibrate';
 import { GameHeader } from '../components/GameHeader';
 import { GameBoard } from '../components/GameBoard';
 import { ColorPicker } from '../components/ColorPicker';
@@ -22,6 +23,7 @@ export function GameScreen({ levelId, onHome, onNextLevel, onRetry, onSkip }: Ga
   const colorBlindMode = useSettingsStore(s => s.colorBlindMode);
   const completeLevel = useProgressStore(s => s.completeLevel);
   const { play } = useSound();
+  const { vibrate } = useVibrate();
 
   useEffect(() => {
     store.initLevel(levelId);
@@ -34,33 +36,35 @@ export function GameScreen({ levelId, onHome, onNextLevel, onRetry, onSkip }: Ga
     const success = store.submitGuess();
     if (success) {
       play('submit');
+      vibrate('submit');
       const state = useGameStore.getState();
       if (state.isComplete) {
         completeLevel(levelId, state.guesses.length, state.isWon);
         if (state.isWon) {
           const earnedStars = store.calculateStars(state.guesses.length);
-          setTimeout(() => play('win'), 300);
+          setTimeout(() => { play('win'); vibrate('win'); }, 300);
           for (let i = 0; i < earnedStars; i++) {
-            setTimeout(() => play('star'), 700 + i * 300);
+            setTimeout(() => { play('star'); vibrate('star'); }, 700 + i * 300);
           }
         } else {
-          setTimeout(() => play('lose'), 300);
+          setTimeout(() => { play('lose'); vibrate('lose'); }, 300);
         }
       }
     }
-  }, [store, levelId, completeLevel, play]);
+  }, [store, levelId, completeLevel, play, vibrate]);
 
   const handleColorSelect = useCallback((color: import('@super-decoder/shared').Color) => {
     const before = useGameStore.getState().currentGuess;
     store.selectColor(color);
     const after = useGameStore.getState().currentGuess;
-    if (before !== after) play('place');
-  }, [store, play]);
+    if (before !== after) { play('place'); vibrate('place'); }
+  }, [store, play, vibrate]);
 
   const handleClear = useCallback(() => {
     store.clearCurrentGuess();
     play('clear');
-  }, [store, play]);
+    vibrate('clear');
+  }, [store, play, vibrate]);
 
   const handleBack = useCallback(() => {
     if (store.guesses.length > 0 && !store.isComplete) {

@@ -19,6 +19,7 @@ export type {
   ColorDefinition,
   Settings,
   SoundName,
+  VibrationName,
 } from './types/game.ts';
 export type { ThemeId, ThemeVariables, ThemeDefinition } from './types/theme.ts';
 

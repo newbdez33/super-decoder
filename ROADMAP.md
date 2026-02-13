@@ -18,12 +18,11 @@
 - [x] Sound effects (7 retro sci-fi SFX via jsfxr, Howler.js on web, expo-av on mobile)
 - [x] Sound toggle in settings (persisted)
 - [x] Respects iOS silent mode
+- [x] Haptic feedback patterns (expo-haptics on mobile, navigator.vibrate on web)
 
 ## In Progress
 
 ## Polish
-
-- [ ] Haptic feedback patterns (differentiate success/failure/tap)
 - [ ] Animated transitions between screens (mobile)
 - [ ] Onboarding tutorial for first-time players
 - [ ] Localization (i18n) — English, Chinese

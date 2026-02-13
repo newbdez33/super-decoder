@@ -76,3 +76,5 @@ export interface Settings {
 }
 
 export type SoundName = 'tap' | 'place' | 'submit' | 'win' | 'lose' | 'star' | 'clear';
+
+export type VibrationName = 'tap' | 'place' | 'submit' | 'win' | 'lose' | 'star' | 'clear';
