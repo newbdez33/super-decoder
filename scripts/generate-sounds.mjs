@@ -7,13 +7,12 @@ import { writeFileSync } from 'fs';
 const { sfxr } = await import('jsfxr');
 
 function generateAndSave(name, algorithm, overrides = {}) {
-  const result = sfxr.generate(algorithm, { sound_vol: 0.25, sample_rate: 44100, sample_size: 8 });
-  // Apply parameter overrides
-  for (const [key, value] of Object.entries(overrides)) {
-    result[key] = value;
-  }
-  const buf = sfxr.toBuffer(result);
-  const wavBuf = Buffer.from(buf);
+  const result = sfxr.generate(algorithm, {
+    sound_vol: 0.25, sample_rate: 44100, sample_size: 16,
+    ...overrides,
+  });
+  const wave = sfxr.toWave(result);
+  const wavBuf = Buffer.from(wave.wav);
   writeFileSync(`${webDir}/${name}.wav`, wavBuf);
   writeFileSync(`${mobileDir}/${name}.wav`, wavBuf);
   console.log(`Generated ${name}.wav (${wavBuf.length} bytes)`);

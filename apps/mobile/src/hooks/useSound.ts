@@ -14,6 +14,13 @@ const soundFiles: Record<SoundName, number> = {
 };
 
 const soundCache = new Map<SoundName, Audio.Sound>();
+let audioModeReady = false;
+
+async function ensureAudioMode(): Promise<void> {
+  if (audioModeReady) return;
+  await Audio.setAudioModeAsync({ playsInSilentModeOnIOS: false });
+  audioModeReady = true;
+}
 
 async function loadSound(name: SoundName): Promise<Audio.Sound> {
   const cached = soundCache.get(name);
@@ -24,9 +31,6 @@ async function loadSound(name: SoundName): Promise<Audio.Sound> {
   return sound;
 }
 
-// Configure audio mode once at module level
-Audio.setAudioModeAsync({ playsInSilentModeOnIOS: false });
-
 export function useSound() {
   const soundEnabled = useSettingsStore(s => s.soundEnabled);
   const enabledRef = useRef(soundEnabled);
@@ -35,14 +39,19 @@ export function useSound() {
     enabledRef.current = soundEnabled;
   }, [soundEnabled]);
 
+  useEffect(() => {
+    ensureAudioMode();
+  }, []);
+
   const play = useCallback(async (name: SoundName) => {
     if (!enabledRef.current) return;
     try {
+      await ensureAudioMode();
       const sound = await loadSound(name);
       await sound.setPositionAsync(0);
       await sound.playAsync();
-    } catch {
-      // Silently ignore audio errors
+    } catch (e) {
+      console.warn('[useSound] playback error:', name, e);
     }
   }, []);
 
