@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { View, ScrollView, Alert, StyleSheet } from 'react-native';
+import { useCallback, useState } from 'react';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGameStore } from '@super-decoder/shared';
@@ -10,6 +10,7 @@ import { GameBoard } from '../components/GameBoard';
 import { ColorPicker } from '../components/ColorPicker';
 import { GameActions } from '../components/GameActions';
 import { ResultModal } from '../components/ResultModal';
+import { ConfirmDialog } from '../components/ConfirmDialog';
 import { useTheme } from '../themes/useTheme';
 
 export function GameScreen() {
@@ -22,6 +23,8 @@ export function GameScreen() {
   const completeLevel = useProgressStore(s => s.completeLevel);
   const advanceLevel = useProgressStore(s => s.advanceLevel);
   const currentLevel = useProgressStore(s => s.currentLevel);
+
+  const [showLeaveDialog, setShowLeaveDialog] = useState(false);
 
   const levelId = store.currentLevel;
   const isFreeOrDuo = mode === 'free' || mode === 'duo';
@@ -40,14 +43,7 @@ export function GameScreen() {
 
   const handleBack = useCallback(() => {
     if (store.guesses.length > 0 && !store.isComplete) {
-      Alert.alert(
-        'Leave game?',
-        'Your progress on this level will be lost.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Leave', style: 'destructive', onPress: () => router.back() },
-        ]
-      );
+      setShowLeaveDialog(true);
     } else {
       router.back();
     }
@@ -98,6 +94,16 @@ export function GameScreen() {
           onClear={store.clearCurrentGuess}
         />
       </View>
+
+      <ConfirmDialog
+        visible={showLeaveDialog}
+        title="Leave game?"
+        message="Your progress on this level will be lost."
+        confirmLabel="Leave"
+        destructive
+        onCancel={() => setShowLeaveDialog(false)}
+        onConfirm={() => { setShowLeaveDialog(false); router.back(); }}
+      />
 
       <ResultModal
         isOpen={store.isComplete}

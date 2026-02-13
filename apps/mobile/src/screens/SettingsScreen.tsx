@@ -1,9 +1,11 @@
-import { View, Text, Pressable, Alert, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { THEMES } from '@super-decoder/shared';
 import { useSettingsStore } from '../stores/settingsStore';
 import { useProgressStore } from '../stores/progressStore';
 import { Toggle } from '../components/Toggle';
+import { ConfirmDialog } from '../components/ConfirmDialog';
 import { useTheme } from '../themes/useTheme';
 
 export function SettingsScreen() {
@@ -12,15 +14,10 @@ export function SettingsScreen() {
   const settings = useSettingsStore();
   const resetProgress = useProgressStore(s => s.resetProgress);
 
+  const [showResetDialog, setShowResetDialog] = useState(false);
+
   const handleReset = () => {
-    Alert.alert(
-      'Reset Progress',
-      'Are you sure you want to reset all progress? This cannot be undone.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Reset', style: 'destructive', onPress: resetProgress },
-      ]
-    );
+    setShowResetDialog(true);
   };
 
   const languages = [
@@ -133,6 +130,16 @@ export function SettingsScreen() {
           <Text style={[styles.resetText, { color: theme['--failure'] }]}>Reset All Progress</Text>
         </Pressable>
       </View>
+
+      <ConfirmDialog
+        visible={showResetDialog}
+        title="Reset Progress"
+        message="Are you sure you want to reset all progress? This cannot be undone."
+        confirmLabel="Reset"
+        destructive
+        onCancel={() => setShowResetDialog(false)}
+        onConfirm={() => { setShowResetDialog(false); resetProgress(); }}
+      />
     </View>
   );
 }
