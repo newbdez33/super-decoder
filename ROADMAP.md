@@ -15,23 +15,11 @@
 - [x] Playwright E2E tests (iPhone 14, Pixel 7, iPad Mini)
 - [x] 22 Maestro E2E flows (mobile, including colorblind hints)
 - [x] Star rating system (1-3 stars based on guesses used)
+- [x] Sound effects (7 retro sci-fi SFX via jsfxr, Howler.js on web, expo-av on mobile)
+- [x] Sound toggle in settings (persisted)
+- [x] Respects iOS silent mode
 
 ## In Progress
-
-- [ ] Color blind hint dot symbols — manual QA on both platforms
-
-## Sound Effects
-
-- [ ] Sound engine abstraction (Howler.js on web, expo-av on mobile)
-- [ ] Slot placement sound (color placed into a slot)
-- [ ] Guess submission sound
-- [ ] Correct guess / victory fanfare
-- [ ] Incorrect guess / failure sound
-- [ ] Star award chime (per star)
-- [ ] Button tap / UI interaction sounds
-- [ ] Volume control in settings
-- [ ] Mute toggle in settings (persisted)
-- [ ] Respect device silent mode on mobile
 
 ## Polish
 
