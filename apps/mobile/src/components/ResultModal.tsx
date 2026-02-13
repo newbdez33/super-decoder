@@ -14,6 +14,7 @@ interface ResultModalProps {
   onRetry: () => void;
   onHome: () => void;
   onSkip?: () => void;
+  colorBlindMode: boolean;
 }
 
 export function ResultModal({
@@ -26,6 +27,7 @@ export function ResultModal({
   onRetry,
   onHome,
   onSkip,
+  colorBlindMode,
 }: ResultModalProps) {
   const theme = useTheme();
 
@@ -57,7 +59,7 @@ export function ResultModal({
                   color={color}
                   isSelected={false}
                   isDisabled={true}
-                  colorBlindMode={false}
+                  colorBlindMode={colorBlindMode}
                   onPress={() => {}}
                 />
               ))}

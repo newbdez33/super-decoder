@@ -1,13 +1,20 @@
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import type { DirectHint } from '@super-decoder/shared';
 import { useTheme } from '../themes/useTheme';
 
 interface DirectHintsProps {
   hints: DirectHint[];
   rowIndex?: number;
+  colorBlindMode: boolean;
 }
 
-export function DirectHints({ hints, rowIndex }: DirectHintsProps) {
+const statusSymbols: Record<string, string> = {
+  correct: '\u2713',
+  wrong_position: '~',
+  not_exist: '\u2014',
+};
+
+export function DirectHints({ hints, rowIndex, colorBlindMode }: DirectHintsProps) {
   const theme = useTheme();
 
   const statusColors: Record<string, string> = {
@@ -16,8 +23,11 @@ export function DirectHints({ hints, rowIndex }: DirectHintsProps) {
     not_exist: theme['--hint-absent'],
   };
 
+  const dotSize = colorBlindMode ? 14 : 10;
+  const gridSize = colorBlindMode ? 30 : 28;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: gridSize, height: gridSize }]}>
       {hints.map((hint, i) => (
         <View
           key={i}
@@ -26,8 +36,20 @@ export function DirectHints({ hints, rowIndex }: DirectHintsProps) {
             hint.status === 'correct' ? 'correct' :
             hint.status === 'wrong_position' ? 'wrong position' : 'not exist'
           }
-          style={[styles.dot, { backgroundColor: statusColors[hint.status] }]}
-        />
+          style={[
+            styles.dot,
+            {
+              backgroundColor: statusColors[hint.status],
+              width: dotSize,
+              height: dotSize,
+              borderRadius: dotSize / 2,
+            },
+          ]}
+        >
+          {colorBlindMode && (
+            <Text style={styles.symbol}>{statusSymbols[hint.status]}</Text>
+          )}
+        </View>
       ))}
     </View>
   );
@@ -37,14 +59,18 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: 28,
-    height: 28,
     justifyContent: 'space-between',
     alignContent: 'space-between',
   },
   dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  symbol: {
+    fontSize: 9,
+    lineHeight: 14,
+    color: '#000',
+    fontWeight: '700',
+    textAlign: 'center',
   },
 });

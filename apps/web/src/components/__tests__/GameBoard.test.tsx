@@ -12,7 +12,7 @@ describe('GameBoard', () => {
   describe('initial render', () => {
     it('should render 7 guess rows', () => {
       useGameStore.getState().initLevel(1);
-      render(<GameBoard />);
+      render(<GameBoard colorBlindMode={false} />);
       // Each row has 4 color slots; 7 rows = 28 slots total
       // The first row is the current active row with empty slots
       // The remaining 6 rows are inactive with empty slots
@@ -23,7 +23,7 @@ describe('GameBoard', () => {
 
     it('should have the first row as active', () => {
       useGameStore.getState().initLevel(1);
-      render(<GameBoard />);
+      render(<GameBoard colorBlindMode={false} />);
       // The first row's slots should not be disabled (they are active/current)
       const emptySlots = screen.getAllByLabelText('Empty slot');
       // First 4 slots (first row) should not be disabled
@@ -34,7 +34,7 @@ describe('GameBoard', () => {
 
     it('should have rows 2-7 as inactive and disabled', () => {
       useGameStore.getState().initLevel(1);
-      render(<GameBoard />);
+      render(<GameBoard colorBlindMode={false} />);
       const emptySlots = screen.getAllByLabelText('Empty slot');
       // Rows 2-7 (indices 4 through 27) should be disabled
       for (let i = 4; i < MAX_GUESSES * 4; i++) {
@@ -54,7 +54,7 @@ describe('GameBoard', () => {
       useGameStore.getState().setCurrentGuess(guessColors);
       useGameStore.getState().submitGuess();
 
-      render(<GameBoard />);
+      render(<GameBoard colorBlindMode={false} />);
 
       // The submitted guess row should show the colors
       for (const color of guessColors) {
@@ -74,7 +74,7 @@ describe('GameBoard', () => {
       useGameStore.getState().setCurrentGuess(guessColors);
       useGameStore.getState().submitGuess();
 
-      render(<GameBoard />);
+      render(<GameBoard colorBlindMode={false} />);
 
       // Direct hints produce hint indicators with accessible labels
       const hintIndicators = screen.getAllByRole('img');
@@ -97,7 +97,7 @@ describe('GameBoard', () => {
       useGameStore.getState().setCurrentGuess(guess2);
       useGameStore.getState().submitGuess();
 
-      render(<GameBoard />);
+      render(<GameBoard colorBlindMode={false} />);
 
       // 2 rows filled, 5 rows empty
       const emptySlots = screen.getAllByLabelText('Empty slot');
@@ -116,7 +116,7 @@ describe('GameBoard', () => {
         useGameStore.getState().submitGuess();
       }
 
-      render(<GameBoard />);
+      render(<GameBoard colorBlindMode={false} />);
 
       // 3 completed rows, each with 4 hint indicators = 12 hint indicators
       const hintIndicators = screen.getAllByRole('img');

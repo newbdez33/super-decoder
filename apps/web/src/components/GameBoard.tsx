@@ -1,7 +1,11 @@
 import { useGameStore, MAX_GUESSES } from '@super-decoder/shared';
 import { GuessRow } from './GuessRow';
 
-export function GameBoard() {
+interface GameBoardProps {
+  colorBlindMode: boolean;
+}
+
+export function GameBoard({ colorBlindMode }: GameBoardProps) {
   const {
     guesses,
     currentGuess,
@@ -27,7 +31,7 @@ export function GameBoard() {
         currentGuess={currentGuess}
         selectedSlot={selectedSlot}
         onSlotClick={(slotIndex) => setSelectedSlot(slotIndex)}
-        colorBlindMode={false}
+        colorBlindMode={colorBlindMode}
       />
     );
   });

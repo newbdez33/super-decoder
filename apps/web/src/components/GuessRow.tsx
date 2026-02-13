@@ -61,10 +61,10 @@ export function GuessRow({
 
       <div style={{ marginLeft: 8, minWidth: 28 }}>
         {isCompleted && guess.directHints && hintType === 'direct' && (
-          <DirectHints hints={guess.directHints} />
+          <DirectHints hints={guess.directHints} colorBlindMode={colorBlindMode} />
         )}
         {isCompleted && guess.indirectHint && hintType === 'indirect' && (
-          <IndirectHints hint={guess.indirectHint} />
+          <IndirectHints hint={guess.indirectHint} colorBlindMode={colorBlindMode} />
         )}
       </div>
     </div>

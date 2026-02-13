@@ -12,7 +12,7 @@ describe('DirectHints', () => {
         { position: 2, status: 'not_exist' },
         { position: 3, status: 'correct' },
       ];
-      render(<DirectHints hints={hints} />);
+      render(<DirectHints hints={hints} colorBlindMode={false} />);
       const indicators = screen.getAllByRole('img');
       expect(indicators).toHaveLength(4);
     });
@@ -26,7 +26,7 @@ describe('DirectHints', () => {
         { position: 2, status: 'correct' },
         { position: 3, status: 'correct' },
       ];
-      render(<DirectHints hints={hints} />);
+      render(<DirectHints hints={hints} colorBlindMode={false} />);
       const correctIndicators = screen.getAllByLabelText('correct');
       expect(correctIndicators).toHaveLength(4);
     });
@@ -40,7 +40,7 @@ describe('DirectHints', () => {
         { position: 2, status: 'wrong_position' },
         { position: 3, status: 'wrong_position' },
       ];
-      render(<DirectHints hints={hints} />);
+      render(<DirectHints hints={hints} colorBlindMode={false} />);
       const wrongPosIndicators = screen.getAllByLabelText('wrong position');
       expect(wrongPosIndicators).toHaveLength(4);
     });
@@ -54,7 +54,7 @@ describe('DirectHints', () => {
         { position: 2, status: 'not_exist' },
         { position: 3, status: 'not_exist' },
       ];
-      render(<DirectHints hints={hints} />);
+      render(<DirectHints hints={hints} colorBlindMode={false} />);
       const notExistIndicators = screen.getAllByLabelText('not exist');
       expect(notExistIndicators).toHaveLength(4);
     });
@@ -68,7 +68,7 @@ describe('DirectHints', () => {
         { position: 2, status: 'not_exist' },
         { position: 3, status: 'correct' },
       ];
-      render(<DirectHints hints={hints} />);
+      render(<DirectHints hints={hints} colorBlindMode={false} />);
       expect(screen.getAllByLabelText('correct')).toHaveLength(2);
       expect(screen.getAllByLabelText('wrong position')).toHaveLength(1);
       expect(screen.getAllByLabelText('not exist')).toHaveLength(1);
@@ -81,10 +81,71 @@ describe('DirectHints', () => {
         { position: 2, status: 'wrong_position' },
         { position: 3, status: 'not_exist' },
       ];
-      render(<DirectHints hints={hints} />);
+      render(<DirectHints hints={hints} colorBlindMode={false} />);
       expect(screen.getAllByLabelText('correct')).toHaveLength(1);
       expect(screen.getAllByLabelText('wrong position')).toHaveLength(2);
       expect(screen.getAllByLabelText('not exist')).toHaveLength(1);
+    });
+  });
+
+  describe('colorBlindMode', () => {
+    it('should not render symbols when colorBlindMode is false', () => {
+      const hints: DirectHint[] = [
+        { position: 0, status: 'correct' },
+        { position: 1, status: 'wrong_position' },
+        { position: 2, status: 'not_exist' },
+        { position: 3, status: 'correct' },
+      ];
+      render(<DirectHints hints={hints} colorBlindMode={false} />);
+      expect(screen.queryByText('\u2713')).not.toBeInTheDocument();
+      expect(screen.queryByText('~')).not.toBeInTheDocument();
+      expect(screen.queryByText('\u2014')).not.toBeInTheDocument();
+    });
+
+    it('should render checkmark symbol for correct hints', () => {
+      const hints: DirectHint[] = [
+        { position: 0, status: 'correct' },
+        { position: 1, status: 'correct' },
+        { position: 2, status: 'correct' },
+        { position: 3, status: 'correct' },
+      ];
+      render(<DirectHints hints={hints} colorBlindMode={true} />);
+      expect(screen.getAllByText('\u2713')).toHaveLength(4);
+    });
+
+    it('should render tilde symbol for wrong_position hints', () => {
+      const hints: DirectHint[] = [
+        { position: 0, status: 'wrong_position' },
+        { position: 1, status: 'wrong_position' },
+        { position: 2, status: 'wrong_position' },
+        { position: 3, status: 'wrong_position' },
+      ];
+      render(<DirectHints hints={hints} colorBlindMode={true} />);
+      expect(screen.getAllByText('~')).toHaveLength(4);
+    });
+
+    it('should render em-dash symbol for not_exist hints', () => {
+      const hints: DirectHint[] = [
+        { position: 0, status: 'not_exist' },
+        { position: 1, status: 'not_exist' },
+        { position: 2, status: 'not_exist' },
+        { position: 3, status: 'not_exist' },
+      ];
+      render(<DirectHints hints={hints} colorBlindMode={true} />);
+      expect(screen.getAllByText('\u2014')).toHaveLength(4);
+    });
+
+    it('should render mixed symbols for mixed statuses', () => {
+      const hints: DirectHint[] = [
+        { position: 0, status: 'correct' },
+        { position: 1, status: 'wrong_position' },
+        { position: 2, status: 'not_exist' },
+        { position: 3, status: 'correct' },
+      ];
+      render(<DirectHints hints={hints} colorBlindMode={true} />);
+      expect(screen.getAllByText('\u2713')).toHaveLength(2);
+      expect(screen.getAllByText('~')).toHaveLength(1);
+      expect(screen.getAllByText('\u2014')).toHaveLength(1);
     });
   });
 });

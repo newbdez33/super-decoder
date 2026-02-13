@@ -2,9 +2,16 @@ import type { IndirectHint } from '@super-decoder/shared';
 
 interface IndirectHintsProps {
   hint: IndirectHint;
+  colorBlindMode: boolean;
 }
 
-export function IndirectHints({ hint }: IndirectHintsProps) {
+const symbolMap = {
+  'correct position': '\u2713',
+  'correct color': '~',
+  'no match': '\u2014',
+};
+
+export function IndirectHints({ hint, colorBlindMode }: IndirectHintsProps) {
   const { correctPosition, correctColor } = hint;
   const empty = 4 - correctPosition - correctColor;
 
@@ -15,14 +22,17 @@ export function IndirectHints({ hint }: IndirectHintsProps) {
     ...Array(empty).fill({ label: 'no match', color: 'var(--hint-absent)' }),
   ];
 
+  const dotSize = colorBlindMode ? 14 : 10;
+  const gridSize = colorBlindMode ? 30 : 28;
+
   return (
     <div style={{
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
       gridTemplateRows: '1fr 1fr',
       gap: 3,
-      width: 28,
-      height: 28,
+      width: gridSize,
+      height: gridSize,
     }}>
       {dots.map((dot, i) => (
         <div
@@ -30,8 +40,8 @@ export function IndirectHints({ hint }: IndirectHintsProps) {
           role="img"
           aria-label={dot.label}
           style={{
-            width: 10,
-            height: 10,
+            width: dotSize,
+            height: dotSize,
             borderRadius: '50%',
             backgroundColor: dot.color,
             boxShadow: dot.label === 'correct position'
@@ -39,8 +49,22 @@ export function IndirectHints({ hint }: IndirectHintsProps) {
               : dot.label === 'correct color'
                 ? '0 0 4px var(--hint-glow)'
                 : 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
-        />
+        >
+          {colorBlindMode && (
+            <span style={{
+              fontSize: 9,
+              lineHeight: 1,
+              color: '#000',
+              fontWeight: 700,
+            }}>
+              {symbolMap[dot.label as keyof typeof symbolMap]}
+            </span>
+          )}
+        </div>
       ))}
     </div>
   );

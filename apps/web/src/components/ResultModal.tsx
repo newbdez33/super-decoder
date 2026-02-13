@@ -13,6 +13,7 @@ interface ResultModalProps {
   onRetry: () => void;
   onHome: () => void;
   onSkip?: () => void;
+  colorBlindMode: boolean;
 }
 
 export function ResultModal({
@@ -25,6 +26,7 @@ export function ResultModal({
   onRetry,
   onHome,
   onSkip,
+  colorBlindMode,
 }: ResultModalProps) {
   return (
     <AnimatePresence>
@@ -87,7 +89,7 @@ export function ResultModal({
                   color={color}
                   isSelected={false}
                   isDisabled={true}
-                  colorBlindMode={false}
+                  colorBlindMode={colorBlindMode}
                   onClick={() => {}}
                 />
               ))}

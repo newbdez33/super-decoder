@@ -20,7 +20,7 @@ Super Decoder is a Mastermind-based code-breaking puzzle game with 600 levels, s
 - `npm run lint -w @super-decoder/web` — ESLint
 - `npm start -w @super-decoder/mobile` — Start Expo dev server (mobile)
 - `npx expo start --android` — Run mobile app on Android emulator (from `apps/mobile/`)
-- `npm run e2e -w @super-decoder/mobile` — Run all Maestro E2E flows (21 flows)
+- `npm run e2e -w @super-decoder/mobile` — Run all Maestro E2E flows (22 flows)
 - `npm run e2e:single -w @super-decoder/mobile -- e2e/flows/02-solo-win.yaml` — Run single flow
 
 ## Project Structure
@@ -54,7 +54,7 @@ super-decoder/
 │       │   └── themes/             # useTheme hook
 │       ├── assets/fonts/           # Orbitron + Exo 2 TTFs
 │       ├── .maestro/config.yaml    # Maestro E2E test config
-│       ├── e2e/flows/              # 21 Maestro YAML test flows
+│       ├── e2e/flows/              # 22 Maestro YAML test flows
 │       └── metro.config.js         # monorepo watchFolders config
 ```
 
@@ -137,11 +137,11 @@ export const useSettingsStore = createSettingsStore(AsyncStorage);
 - Hint feedback dots (direct & indirect) displayed as 2x2 grid at four corners of a 28x28 square
 
 ## Mobile E2E Testing (Maestro)
-- 21 YAML flows in `apps/mobile/e2e/flows/` (13 existing + 8 new)
+- 22 YAML flows in `apps/mobile/e2e/flows/` (13 existing + 9 new)
 - Config: `apps/mobile/.maestro/config.yaml`
 - Test plan: `docs/mobile-ui-test-plan.md`
 - Smoke suite (PRs): flows 01, 02, 03, 10 — tagged `smoke`
-- Full suite (push to develop/main): all 21 flows — tagged `full`
+- Full suite (push to develop/main): all 22 flows — tagged `full`
 - CI: `.github/workflows/mobile-e2e.yml` — Android (ubuntu) + iOS (macos) jobs
 - All interactive elements have `testID` props for Maestro selectors
 

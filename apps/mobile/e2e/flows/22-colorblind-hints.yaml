@@ -1,0 +1,77 @@
+appId: host.exp.Exponent
+tags:
+  - full
+name: "22 - Colorblind Hint Symbols"
+
+---
+
+# Launch app with fresh state
+- openLink: "exp://localhost:8081"
+- waitForAnimationToEnd:
+    timeout: 10000
+
+---
+
+# Test 1: Enable colorblind mode in Settings
+- tapOn:
+    id: "btn-settings"
+- assertVisible:
+    id: "toggle-colorblind"
+- tapOn:
+    id: "toggle-colorblind"
+- tapOn:
+    id: "btn-back"
+
+---
+
+# Test 2: Start solo mode (direct hints, levels 1-100)
+- tapOn:
+    id: "btn-solo"
+- assertVisible:
+    id: "game-screen"
+
+---
+
+# Test 3: Make a guess to generate hint dots
+- tapOn:
+    id: "slot-0-0"
+- tapOn:
+    id: "color-0"
+- tapOn:
+    id: "slot-0-1"
+- tapOn:
+    id: "color-1"
+- tapOn:
+    id: "slot-0-2"
+- tapOn:
+    id: "color-2"
+- tapOn:
+    id: "slot-0-3"
+- tapOn:
+    id: "color-3"
+- tapOn:
+    id: "btn-submit"
+
+---
+
+# Test 4: Screenshot showing colorblind hint symbols
+- takeScreenshot: colorblind-direct-hints
+
+---
+
+# Clean up: go back home
+- tapOn:
+    id: "btn-back"
+- tapOn:
+    text: "Leave"
+    optional: true
+
+# Disable colorblind mode
+- tapOn:
+    id: "btn-settings"
+- tapOn:
+    id: "toggle-colorblind"
+- tapOn:
+    id: "btn-back"
+- assertVisible:
+    id: "home-title"

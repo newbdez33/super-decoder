@@ -68,10 +68,10 @@ export function GuessRow({
 
       <View style={styles.hints}>
         {isCompleted && guess.directHints && hintType === 'direct' && (
-          <DirectHints hints={guess.directHints} rowIndex={rowIndex} />
+          <DirectHints hints={guess.directHints} rowIndex={rowIndex} colorBlindMode={colorBlindMode} />
         )}
         {isCompleted && guess.indirectHint && hintType === 'indirect' && (
-          <IndirectHints hint={guess.indirectHint} rowIndex={rowIndex} />
+          <IndirectHints hint={guess.indirectHint} rowIndex={rowIndex} colorBlindMode={colorBlindMode} />
         )}
       </View>
     </View>
