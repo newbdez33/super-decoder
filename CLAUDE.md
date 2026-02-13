@@ -132,6 +132,9 @@ export const useSettingsStore = createSettingsStore(AsyncStorage);
 - Max game width 480px, centered on larger screens
 - Safe Area Insets for notch devices
 - All animations via Framer Motion (web) / Reanimated (mobile)
+- Color slots and color picker buttons are 48x48 rounded squares (borderRadius 8)
+- Guess row slots align left with 10px gap, matching color picker gap
+- Hint feedback dots (direct & indirect) displayed as 2x2 grid at four corners of a 28x28 square
 
 ## Mobile E2E Testing (Maestro)
 - 21 YAML flows in `apps/mobile/e2e/flows/` (13 existing + 8 new)

@@ -36,12 +36,15 @@ export function DirectHints({ hints, rowIndex }: DirectHintsProps) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    gap: 8,
-    alignItems: 'center',
+    flexWrap: 'wrap',
+    width: 28,
+    height: 28,
+    justifyContent: 'space-between',
+    alignContent: 'space-between',
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
 });

@@ -88,8 +88,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   slots: {
+    flex: 1,
     flexDirection: 'row',
-    gap: 6,
+    justifyContent: 'flex-start',
+    gap: 10,
   },
   hints: {
     marginLeft: 8,

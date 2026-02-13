@@ -41,7 +41,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     width: 28,
     height: 28,
-    gap: 3,
+    justifyContent: 'space-between',
+    alignContent: 'space-between',
   },
   dot: {
     width: 10,
