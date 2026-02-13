@@ -3,8 +3,10 @@ import { View, ScrollView, StyleSheet } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGameStore } from '@super-decoder/shared';
+import type { Color } from '@super-decoder/shared';
 import { useProgressStore } from '../stores/progressStore';
 import { useSettingsStore } from '../stores/settingsStore';
+import { useSound } from '../hooks/useSound';
 import { GameHeader } from '../components/GameHeader';
 import { GameBoard } from '../components/GameBoard';
 import { ColorPicker } from '../components/ColorPicker';
@@ -24,6 +26,7 @@ export function GameScreen() {
   const advanceLevel = useProgressStore(s => s.advanceLevel);
   const currentLevel = useProgressStore(s => s.currentLevel);
 
+  const { play } = useSound();
   const [showLeaveDialog, setShowLeaveDialog] = useState(false);
 
   const levelId = store.currentLevel;
@@ -31,15 +34,39 @@ export function GameScreen() {
   const canSubmit = store.currentGuess.every(c => c !== null);
   const stars = store.calculateStars(store.guesses.length);
 
+  const handleColorSelect = useCallback((color: Color) => {
+    const before = useGameStore.getState().currentGuess;
+    store.selectColor(color);
+    const after = useGameStore.getState().currentGuess;
+    if (before !== after) play('place');
+  }, [store, play]);
+
+  const handleClear = useCallback(() => {
+    store.clearCurrentGuess();
+    play('clear');
+  }, [store, play]);
+
   const handleSubmit = useCallback(() => {
     const success = store.submitGuess();
     if (success) {
+      play('submit');
       const state = useGameStore.getState();
       if (state.isComplete && !isFreeOrDuo) {
         completeLevel(levelId, state.guesses.length, state.isWon);
       }
+      if (state.isComplete) {
+        if (state.isWon) {
+          const earnedStars = store.calculateStars(state.guesses.length);
+          setTimeout(() => play('win'), 300);
+          for (let i = 0; i < earnedStars; i++) {
+            setTimeout(() => play('star'), 700 + i * 300);
+          }
+        } else {
+          setTimeout(() => play('lose'), 300);
+        }
+      }
     }
-  }, [store, levelId, completeLevel, isFreeOrDuo]);
+  }, [store, levelId, completeLevel, isFreeOrDuo, play]);
 
   const handleBack = useCallback(() => {
     if (store.guesses.length > 0 && !store.isComplete) {
@@ -84,14 +111,14 @@ export function GameScreen() {
         <ColorPicker
           availableColors={store.availableColors}
           usedColors={store.usedColors}
-          onColorSelect={store.selectColor}
+          onColorSelect={handleColorSelect}
           colorBlindMode={colorBlindMode}
         />
         <GameActions
           canSubmit={canSubmit}
           isComplete={store.isComplete}
           onSubmit={handleSubmit}
-          onClear={store.clearCurrentGuess}
+          onClear={handleClear}
         />
       </View>
 
@@ -119,6 +146,7 @@ export function GameScreen() {
           const nextLevel = useProgressStore.getState().currentLevel;
           useGameStore.getState().initLevel(nextLevel);
         }}
+        colorBlindMode={colorBlindMode}
       />
     </View>
   );

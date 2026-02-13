@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useGameStore } from '@super-decoder/shared';
 import { useProgressStore } from '../stores/progressStore';
 import { useSettingsStore } from '../stores/settingsStore';
+import { useSound } from '../hooks/useSound';
 import { GameHeader } from '../components/GameHeader';
 import { GameBoard } from '../components/GameBoard';
 import { ColorPicker } from '../components/ColorPicker';
@@ -20,6 +21,7 @@ export function GameScreen({ levelId, onHome, onNextLevel, onRetry, onSkip }: Ga
   const store = useGameStore();
   const colorBlindMode = useSettingsStore(s => s.colorBlindMode);
   const completeLevel = useProgressStore(s => s.completeLevel);
+  const { play } = useSound();
 
   useEffect(() => {
     store.initLevel(levelId);
@@ -31,12 +33,34 @@ export function GameScreen({ levelId, onHome, onNextLevel, onRetry, onSkip }: Ga
   const handleSubmit = useCallback(() => {
     const success = store.submitGuess();
     if (success) {
+      play('submit');
       const state = useGameStore.getState();
       if (state.isComplete) {
         completeLevel(levelId, state.guesses.length, state.isWon);
+        if (state.isWon) {
+          const earnedStars = store.calculateStars(state.guesses.length);
+          setTimeout(() => play('win'), 300);
+          for (let i = 0; i < earnedStars; i++) {
+            setTimeout(() => play('star'), 700 + i * 300);
+          }
+        } else {
+          setTimeout(() => play('lose'), 300);
+        }
       }
     }
-  }, [store, levelId, completeLevel]);
+  }, [store, levelId, completeLevel, play]);
+
+  const handleColorSelect = useCallback((color: import('@super-decoder/shared').Color) => {
+    const before = useGameStore.getState().currentGuess;
+    store.selectColor(color);
+    const after = useGameStore.getState().currentGuess;
+    if (before !== after) play('place');
+  }, [store, play]);
+
+  const handleClear = useCallback(() => {
+    store.clearCurrentGuess();
+    play('clear');
+  }, [store, play]);
 
   const handleBack = useCallback(() => {
     if (store.guesses.length > 0 && !store.isComplete) {
@@ -64,21 +88,21 @@ export function GameScreen({ levelId, onHome, onNextLevel, onRetry, onSkip }: Ga
       />
 
       <div style={{ flex: 1, padding: '8px 12px', overflow: 'auto' }}>
-        <GameBoard />
+        <GameBoard colorBlindMode={colorBlindMode} />
       </div>
 
       <div style={{ padding: '12px 16px', backgroundColor: 'var(--bg-panel)' }}>
         <ColorPicker
           availableColors={store.availableColors}
           usedColors={store.usedColors}
-          onColorSelect={store.selectColor}
+          onColorSelect={handleColorSelect}
           colorBlindMode={colorBlindMode}
         />
         <GameActions
           canSubmit={canSubmit}
           isComplete={store.isComplete}
           onSubmit={handleSubmit}
-          onClear={store.clearCurrentGuess}
+          onClear={handleClear}
         />
       </div>
 
@@ -92,6 +116,7 @@ export function GameScreen({ levelId, onHome, onNextLevel, onRetry, onSkip }: Ga
         onRetry={onRetry}
         onHome={onHome}
         onSkip={onSkip}
+        colorBlindMode={colorBlindMode}
       />
     </div>
   );

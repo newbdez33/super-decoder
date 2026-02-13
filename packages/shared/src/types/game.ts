@@ -74,3 +74,5 @@ export interface Settings {
   colorBlindMode: boolean;
   theme: import('./theme').ThemeId;
 }
+
+export type SoundName = 'tap' | 'place' | 'submit' | 'win' | 'lose' | 'star' | 'clear';
