@@ -2,6 +2,8 @@
 
 A Mastermind-based code-breaking puzzle game with 600 levels, multiple game modes, and a retro-futuristic LED UI. Available as a **PWA** (web) and **native iOS/Android app** (React Native).
 
+**[Play Now](https://newbdez33.github.io/super-decoder/)**
+
 ## Features
 
 - **600 Levels** — Progressive difficulty from 4-color direct hints to 8-color indirect (Mastermind) hints

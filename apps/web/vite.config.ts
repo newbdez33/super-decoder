@@ -7,6 +7,7 @@ const webModules = path.resolve(__dirname, 'node_modules')
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/super-decoder/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
