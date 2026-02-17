@@ -7,7 +7,7 @@
     "apps/*"
   ],
   "scripts": {
-    "postinstall": "npx patch-package",
+    "postinstall": "npx patch-package || true",
     "dev": "npm run dev -w @super-decoder/web",
     "build": "npm run build -w @super-decoder/web",
     "test": "npm run test -w @super-decoder/shared -w @super-decoder/web",
